@@ -1,0 +1,4 @@
+flyspeed:
+  # Values from 1-10
+  # Don't use negative or floating-point numbers
+  limit: 10
