@@ -1,5 +1,5 @@
 /*
- * VitalMail is a Spigot Plugin that gives players the ability to write mail to offline players.
+ * VitalCraft is a Spigot Plugin that gives players the ability to open a crafting interface.
  * Copyright © 2022 Leopold Meinel
  *
  * This program is free software: you can redistribute it and/or modify
@@ -13,12 +13,12 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://github.com/TamrielNetwork/VitalMail/blob/main/LICENSE
+ * along with this program. If not, see https://github.com/TamrielNetwork/VitalCraft/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalfly.files;
+package com.tamrielnetwork.vitalcraft.files;
 
-import com.tamrielnetwork.vitalfly.VitalFly;
+import com.tamrielnetwork.vitalcraft.VitalCraft;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,7 +27,7 @@ import java.io.File;
 
 public class Messages {
 
-	private final VitalFly main = JavaPlugin.getPlugin(VitalFly.class);
+	private final VitalCraft main = JavaPlugin.getPlugin(VitalCraft.class);
 	private final File messagesFile;
 	private final FileConfiguration messagesConf;
 

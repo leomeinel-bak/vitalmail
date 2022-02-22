@@ -5,7 +5,7 @@ plugins {
     id 'java'
 }
 
-group 'com.tamrielnetwork.vitalfly'
+group 'com.tamrielnetwork.vitalcraft'
 version '1.0.0'
 
 repositories {
