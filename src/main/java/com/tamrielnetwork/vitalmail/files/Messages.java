@@ -1,5 +1,5 @@
 /*
- * VitalMail is a Spigot Plugin that gives players the ability to write mail to offline players.
+ * VitalMail is a Spigot Plugin that gives players the ability to set homes and teleport to them.
  * Copyright © 2022 Leopold Meinel
  *
  * This program is free software: you can redistribute it and/or modify
@@ -13,12 +13,12 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://github.com/TamrielNetwork/VitalMail/blob/main/LICENSE
+ * along with this program. If not, see https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalcraft.files;
+package com.tamrielnetwork.vitalmail.files;
 
-import com.tamrielnetwork.vitalcraft.VitalCraft;
+import com.tamrielnetwork.vitalmail.VitalMail;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,23 +27,26 @@ import java.io.File;
 
 public class Messages {
 
-	private final VitalCraft main = JavaPlugin.getPlugin(VitalCraft.class);
+	private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 	private final File messagesFile;
 	private final FileConfiguration messagesConf;
 
 	public Messages() {
+
 		messagesFile = new File(main.getDataFolder(), "messages.yml");
 		saveMessagesFile();
 		messagesConf = YamlConfiguration.loadConfiguration(messagesFile);
 	}
 
 	private void saveMessagesFile() {
+
 		if (!messagesFile.exists()) {
 			main.saveResource("messages.yml", false);
 		}
 	}
 
 	public FileConfiguration getMessagesConf() {
+
 		return messagesConf;
 	}
 

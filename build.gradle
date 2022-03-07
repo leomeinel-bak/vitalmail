@@ -3,9 +3,10 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id 'java'
+    id "org.sonarqube" version "3.3"
 }
 
-group 'com.tamrielnetwork.vitalcraft'
+group 'com.tamrielnetwork.vitalmail'
 version '1.0.0'
 
 repositories {
@@ -24,5 +25,13 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         duplicatesStrategy = 'INCLUDE'
         filter ReplaceTokens, tokens: [version: version]
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "TamrielNetwork_VitalMail"
+        property "sonar.organization", "tamrielnetwork"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }

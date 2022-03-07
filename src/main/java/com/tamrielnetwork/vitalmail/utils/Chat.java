@@ -1,5 +1,5 @@
 /*
- * VitalMail is a Spigot Plugin that gives players the ability to write mail to offline players.
+ * VitalMail is a Spigot Plugin that gives players the ability to set homes and teleport to them.
  * Copyright © 2022 Leopold Meinel
  *
  * This program is free software: you can redistribute it and/or modify
@@ -13,12 +13,12 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://github.com/TamrielNetwork/VitalMail/blob/main/LICENSE
+ * along with this program. If not, see https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalcraft.utils;
+package com.tamrielnetwork.vitalmail.utils;
 
-import com.tamrielnetwork.vitalcraft.VitalCraft;
+import com.tamrielnetwork.vitalmail.VitalMail;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,13 +28,15 @@ import java.util.Objects;
 
 public class Chat {
 
-	private static final VitalCraft main = JavaPlugin.getPlugin(VitalCraft.class);
+	private static final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
 	public static void sendMessage(@NotNull CommandSender player, @NotNull String message) {
+
 		player.sendMessage(replaceColors(Objects.requireNonNull(main.getMessages().getMessagesConf().getString(message))));
 	}
 
 	public static String replaceColors(@NotNull String string) {
+
 		return ChatColor.translateAlternateColorCodes('&', string);
 	}
 

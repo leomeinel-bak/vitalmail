@@ -1,15 +1,21 @@
-name: VitalCraft
+name: VitalMail
 version: @version@
-main: com.tamrielnetwork.vitalcraft.VitalCraft
+main: com.tamrielnetwork.vitalmail.VitalMail
 api-version: 1.17
 authors: [ Tamriel Network ]
 website: https://tamriel.site
-description: Gives players the ability to open a crafting interface.
+description: Gives players the ability to set homes and teleport to them.
 commands:
-  vitalcraft:
+  vitalmail:
     description: "Main command"
-    usage: "/vitalcraft"
+    usage: "/vitalmail"
 permissions:
-  vitalcraft.craft:
-    description: "Permission to toggle crafting interface"
+  vitalmail.read:
+    description: "Permission to read mail"
+    default: op
+  vitalmail.send:
+    description: "Permission to send mail"
+    default: op
+  vitalmail.mails:
+    description: "Permission with number of mails a player can send (fex. vitalmail.mails.2 = 2 mails)"
     default: op
