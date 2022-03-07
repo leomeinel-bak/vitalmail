@@ -36,6 +36,8 @@ import java.util.Objects;
 
 public class MailStorageSql extends MailStorage {
 
+	private static final String SQLEXCEPTION = "VitalSpawn encountered an SQLException while executing task";
+
 	public MailStorageSql() {
 
 		new SqlManager();
@@ -76,9 +78,8 @@ public class MailStorageSql extends MailStorage {
 					pitch = rs.getInt(8);
 				}
 			}
-		} catch (SQLException throwables) {
-
-			throwables.printStackTrace();
+		} catch (SQLException ignored) {
+			Bukkit.getLogger().info(SQLEXCEPTION);
 			return null;
 		}
 		return new Location(world, x, y, z, yaw, pitch);
@@ -97,8 +98,8 @@ public class MailStorageSql extends MailStorage {
 				rs.next();
 				homes = rs.getInt(1);
 			}
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
+		} catch (SQLException ignored) {
+			Bukkit.getLogger().info(SQLEXCEPTION);
 		}
 
 		if (homes >= CmdSpec.getAllowedMails(player, 2)) {
@@ -119,8 +120,8 @@ public class MailStorageSql extends MailStorage {
 			insertStatement.setInt(7, (int) location.getYaw());
 			insertStatement.setInt(8, (int) location.getPitch());
 			insertStatement.executeUpdate();
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
+		} catch (SQLException ignored) {
+			Bukkit.getLogger().info(SQLEXCEPTION);
 		}
 	}
 
@@ -129,8 +130,8 @@ public class MailStorageSql extends MailStorage {
 
 		try (PreparedStatement deleteStatement = SqlManager.getConnection().prepareStatement("DELETE FROM " + Sql.getPrefix() + "Home WHERE `UUID`=" + "'" + mailSenderUUID + "' AND `Home`=" + "'" + mail + "'")) {
 			deleteStatement.executeUpdate();
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
+		} catch (SQLException ignored) {
+			Bukkit.getLogger().info(SQLEXCEPTION);
 		}
 	}
 

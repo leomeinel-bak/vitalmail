@@ -20,6 +20,7 @@ package com.tamrielnetwork.vitalmail.storage.mysql;
 
 import com.tamrielnetwork.vitalmail.VitalMail;
 import com.tamrielnetwork.vitalmail.utils.sql.Sql;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +31,7 @@ import java.sql.SQLException;
 
 public class SqlManager {
 
+	private static final String SQLEXCEPTION = "VitalSpawn encountered an SQLException while executing task";
 	private static Connection connection;
 	private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 	private final int port;
@@ -49,8 +51,8 @@ public class SqlManager {
 			PreparedStatement statementSpawnTable = SqlManager.getConnection()
 					.prepareStatement("CREATE TABLE IF NOT EXISTS " + Sql.getPrefix() + "Home (`UUID` TEXT, `Home` TEXT, `World` TEXT, `X` INT, `Y` INT, `Z` INT, `Yaw` INT, `Pitch` INT)");
 			statementSpawnTable.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException ignored) {
+			Bukkit.getLogger().info(SQLEXCEPTION);
 		}
 	}
 
@@ -71,12 +73,11 @@ public class SqlManager {
 				return;
 			}
 
-			Class.forName("com.mysql.jdbc.Driver");
 			setConnection(DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password));
 
 			main.getLogger().info("Connected successfully with the database!");
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException ignored) {
+			Bukkit.getLogger().info(SQLEXCEPTION);
 		}
 	}
 
