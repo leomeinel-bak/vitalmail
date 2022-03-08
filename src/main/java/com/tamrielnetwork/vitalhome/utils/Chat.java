@@ -16,9 +16,9 @@
  * along with this program. If not, see https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalmail.utils;
+package com.tamrielnetwork.vitalhome.utils;
 
-import com.tamrielnetwork.vitalmail.VitalMail;
+import com.tamrielnetwork.vitalhome.VitalMail;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,6 +32,11 @@ import java.util.Objects;
 public class Chat {
 
 	private static final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
+
+	private Chat() {
+
+		throw new IllegalStateException("Utility class");
+	}
 
 	public static void sendMessage(@NotNull CommandSender player, @NotNull Map<String, String> placeholders, @NotNull String message) {
 

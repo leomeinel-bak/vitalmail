@@ -16,18 +16,24 @@
  * along with this program. If not, see https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalmail.utils.commands;
+package com.tamrielnetwork.vitalhome.utils.commands;
 
-import com.tamrielnetwork.vitalmail.utils.Chat;
+import com.tamrielnetwork.vitalhome.utils.Chat;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class Cmd {
 
-	public static boolean isArgsLengthNotEqualTo(@NotNull CommandSender sender, @NotNull String[] args, int length) {
+	private Cmd() {
 
-		if (args.length != length) {
+		throw new IllegalStateException("Utility class");
+	}
+
+	public static boolean isArgsLengthSmallerThan(@NotNull CommandSender sender, @NotNull String[] args, int length) {
+
+		if (args.length < length) {
 			Chat.sendMessage(sender, "cmd");
 			return true;
 		}
@@ -52,9 +58,21 @@ public class Cmd {
 		return false;
 	}
 
-	public static boolean isInvalidPlayer(Player player) {
+	public static boolean isInvalidPlayer(@NotNull CommandSender sender, OfflinePlayer player) {
 
-		return !player.isOnline();
+		if (player == null) {
+			Chat.sendMessage(sender, "invalid-player");
+			return true;
+		}
+		if (!player.hasPlayedBefore()) {
+			Chat.sendMessage(sender, "invalid-player");
+			return true;
+		}
+		if (player == sender) {
+			Chat.sendMessage(sender, "same-player");
+			return true;
+		}
+		return false;
 	}
 
 }

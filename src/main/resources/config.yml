@@ -10,7 +10,7 @@ storage-system: yaml
 mysql:
   host: "localhost"
   port: 3306
-  database: vitalmail
-  username: "vitalmail"
+  database: vitalhome
+  username: "vitalhome"
   password: ""
   prefix: "server_"

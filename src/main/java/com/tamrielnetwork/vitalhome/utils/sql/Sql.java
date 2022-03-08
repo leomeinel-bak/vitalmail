@@ -16,38 +16,23 @@
  * along with this program. If not, see https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalmail.files;
+package com.tamrielnetwork.vitalhome.utils.sql;
 
-import com.tamrielnetwork.vitalmail.VitalMail;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import com.tamrielnetwork.vitalhome.VitalMail;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
+public class Sql {
 
-public class Messages {
+	private static final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
-	private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
-	private final File messagesFile;
-	private final FileConfiguration messagesConf;
+	private Sql() {
 
-	public Messages() {
-
-		messagesFile = new File(main.getDataFolder(), "messages.yml");
-		saveMessagesFile();
-		messagesConf = YamlConfiguration.loadConfiguration(messagesFile);
+		throw new IllegalStateException("Utility class");
 	}
 
-	private void saveMessagesFile() {
+	public static String getPrefix() {
 
-		if (!messagesFile.exists()) {
-			main.saveResource("messages.yml", false);
-		}
-	}
-
-	public FileConfiguration getMessagesConf() {
-
-		return messagesConf;
+		return main.getConfig().getString("mysql.prefix");
 	}
 
 }

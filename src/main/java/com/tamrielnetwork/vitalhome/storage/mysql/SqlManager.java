@@ -16,10 +16,10 @@
  * along with this program. If not, see https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalmail.storage.mysql;
+package com.tamrielnetwork.vitalhome.storage.mysql;
 
-import com.tamrielnetwork.vitalmail.VitalMail;
-import com.tamrielnetwork.vitalmail.utils.sql.Sql;
+import com.tamrielnetwork.vitalhome.VitalMail;
+import com.tamrielnetwork.vitalhome.utils.sql.Sql;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +50,7 @@ public class SqlManager {
 
 		enableConnection();
 
-		try (PreparedStatement statementSpawnTable = SqlManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS " + Sql.getPrefix() + "Home (`UUID` TEXT, `Home` TEXT, `World` TEXT, `X` INT, `Y` INT, `Z` INT, `Yaw` INT, `Pitch` INT)")) {
+		try (PreparedStatement statementSpawnTable = SqlManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS " + Sql.getPrefix() + "Mail (`ReceiverUUID` TEXT, `SenderUUID` TEXT, `Time` TEXT, `Mail` TEXT)")) {
 			statementSpawnTable.executeUpdate();
 		} catch (SQLException ignored) {
 			Bukkit.getLogger().warning(SQLEXCEPTION);

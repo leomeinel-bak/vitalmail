@@ -16,16 +16,13 @@
  * along with this program. If not, see https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalmail;
+package com.tamrielnetwork.vitalhome;
 
-import com.tamrielnetwork.vitalmail.commands.VitalDelHomeCmd;
-import com.tamrielnetwork.vitalmail.commands.VitalHomeCmd;
-import com.tamrielnetwork.vitalmail.commands.VitalHomesCmd;
-import com.tamrielnetwork.vitalmail.commands.VitalSethomeCmd;
-import com.tamrielnetwork.vitalmail.files.Messages;
-import com.tamrielnetwork.vitalmail.storage.MailStorage;
-import com.tamrielnetwork.vitalmail.storage.MailStorageSql;
-import com.tamrielnetwork.vitalmail.storage.MailStorageYaml;
+import com.tamrielnetwork.vitalhome.commands.VitalMailCmd;
+import com.tamrielnetwork.vitalhome.files.Messages;
+import com.tamrielnetwork.vitalhome.storage.MailStorage;
+import com.tamrielnetwork.vitalhome.storage.MailStorageSql;
+import com.tamrielnetwork.vitalhome.storage.MailStorageYaml;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -73,12 +70,8 @@ public final class VitalMail extends JavaPlugin {
 
 	private void registerCommands() {
 
-		Objects.requireNonNull(getCommand("home")).setExecutor(new VitalHomeCmd());
-		Objects.requireNonNull(getCommand("home")).setTabCompleter(new VitalHomeCmd());
-		Objects.requireNonNull(getCommand("homes")).setExecutor(new VitalHomesCmd());
-		Objects.requireNonNull(getCommand("sethome")).setExecutor(new VitalSethomeCmd());
-		Objects.requireNonNull(getCommand("delhome")).setExecutor(new VitalDelHomeCmd());
-		Objects.requireNonNull(getCommand("delhome")).setTabCompleter(new VitalDelHomeCmd());
+		Objects.requireNonNull(getCommand("mail")).setExecutor(new VitalMailCmd());
+		Objects.requireNonNull(getCommand("mail")).setTabCompleter(new VitalMailCmd());
 	}
 
 	public Messages getMessages() {
@@ -86,7 +79,7 @@ public final class VitalMail extends JavaPlugin {
 		return messages;
 	}
 
-	public MailStorage getHomeStorage() {
+	public MailStorage getMailStorage() {
 
 		return mailStorage;
 	}

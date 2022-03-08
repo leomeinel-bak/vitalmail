@@ -1,6 +1,6 @@
 name: VitalMail
 version: @version@
-main: com.tamrielnetwork.vitalmail.VitalMail
+main: com.tamrielnetwork.vitalhome.VitalMail
 api-version: 1.17
 authors: [ Tamriel Network ]
 website: https://tamriel.site
@@ -26,7 +26,7 @@ permissions:
     description: "Permission to set a home"
     default: op
   vitalhome.homes:
-    description: "Permission with number of homes a player can set (fex. vitalmail.homes.2 = 2 homes)"
+    description: "Permission with number of homes a player can set (fex. vitalhome.homes.2 = 2 homes)"
     default: op
   vitalhome.list:
     description: "Permission to list homes"
