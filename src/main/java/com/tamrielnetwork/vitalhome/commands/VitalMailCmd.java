@@ -61,7 +61,7 @@ public class VitalMailCmd implements TabExecutor {
 
 	private void doSend(@NotNull CommandSender sender, @NotNull String[] args) {
 
-		@Deprecated OfflinePlayer receiverPlayer = Bukkit.getOfflinePlayer(args[0]);
+		@Deprecated OfflinePlayer receiverPlayer = Bukkit.getOfflinePlayer(args[1]);
 		if (CmdSpec.isInvalidCmd(sender, receiverPlayer, "vitalmail.send", args)) {
 			return;
 		}
@@ -70,7 +70,10 @@ public class VitalMailCmd implements TabExecutor {
 
 		StringBuilder mailBuilder = new StringBuilder();
 		for (String arg : args) {
-			if (arg.equals(args[0])) {
+			if (arg.equals(args[0]) || arg.equals(args[1])) {
+				continue;
+			}
+			if (arg.equals(args[2])) {
 				mailBuilder.append(arg);
 				continue;
 			}
