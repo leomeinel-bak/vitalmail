@@ -96,7 +96,7 @@ public class VitalMailCmd implements TabExecutor {
 		List<Map<String, Map<String, String>>> mailList = main.getMailStorage().loadMail(receiverUUID);
 
 		if (mailList.isEmpty()) {
-			Chat.sendMessage(sender, "no-homes");
+			Chat.sendMessage(sender, "no-mail");
 			return;
 		}
 
@@ -123,13 +123,13 @@ public class VitalMailCmd implements TabExecutor {
 		@Nullable List<String> tabComplete = new ArrayList<>();
 
 		if (args.length == 1) {
-			if (sender.hasPermission("")) {
+			if (sender.hasPermission("vitalmail.send")) {
 				tabComplete.add("send");
 			}
-			if (sender.hasPermission("")) {
+			if (sender.hasPermission("vitalmail.read")) {
 				tabComplete.add("read");
 			}
-			if (sender.hasPermission("gbooster.time")) {
+			if (sender.hasPermission("vitalmail.clear")) {
 				tabComplete.add("clear");
 			}
 		}

@@ -76,7 +76,7 @@ public class MailStorageYaml extends MailStorage {
 		mailFile = new File(mailFolder, receiverUUID + ".yml");
 /*
 		if (loadMail(receiverUUID).size() >= CmdSpec.getAllowedMails(receiverPlayer, 1)) {
-			Chat.sendMessage(senderPlayer, "max-mails");
+			Chat.sendMessage(senderPlayer, "inbox-full");
 			return;
 		}
 

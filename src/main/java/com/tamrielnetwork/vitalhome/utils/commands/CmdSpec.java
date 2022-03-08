@@ -93,7 +93,7 @@ public class CmdSpec {
 
 		for (String arg : args) {
 			if (!arg.toLowerCase().matches("[a-z0-9]{1,16}")) {
-				Chat.sendMessage(sender, "invalid-name");
+				Chat.sendMessage(sender, "invalid-mail");
 				return true;
 			}
 		}

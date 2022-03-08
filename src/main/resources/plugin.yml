@@ -6,18 +6,9 @@ authors: [ Tamriel Network ]
 website: https://tamriel.site
 description: Gives players the ability to set homes and teleport to them.
 commands:
-  home:
+  mail:
     description: "Main command"
     usage: "/home"
-  sethome:
-    description: "Main command"
-    usage: "/sethome"
-  delhome:
-    description: "Main command"
-    usage: "/delhome"
-  homes:
-    description: "Main command"
-    usage: "/homes"
 permissions:
   vitalhome.home:
     description: "Permission to teleport home"

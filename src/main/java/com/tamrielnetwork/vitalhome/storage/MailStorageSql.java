@@ -85,7 +85,7 @@ public class MailStorageSql extends MailStorage {
 		}
 
 		if (mails >= CmdSpec.getAllowedMails(receiverPlayer, 1)) {
-			Chat.sendMessage(senderPlayer, "max-mails");
+			Chat.sendMessage(senderPlayer, "inbox-full");
 			return;
 		}
 
