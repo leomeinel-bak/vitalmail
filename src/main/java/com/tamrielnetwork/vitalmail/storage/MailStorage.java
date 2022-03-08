@@ -1,6 +1,6 @@
 /*
  * VitalMail is a Spigot Plugin that gives players the ability to set homes and teleport to them.
- * Copyright © 2022 Leopold Meinel
+ * Copyright © 2022 Leopold Meinel & contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,19 +19,23 @@
 package com.tamrielnetwork.vitalmail.storage;
 
 import com.tamrielnetwork.vitalmail.VitalMail;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
 
 public abstract class MailStorage {
 
 	protected final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
-	public abstract String loadMail(@NotNull Player mailSender, @NotNull OfflinePlayer mailReceiver, @NotNull String time, @NotNull String mail);
+	public abstract Location loadHome(@NotNull Player player, @NotNull String arg);
 
-	public abstract void saveMail(@NotNull Player mailSender, @NotNull OfflinePlayer mailReceiver, @NotNull String time, @NotNull String mail);
+	public abstract Set<String> listHome(@NotNull Player player);
 
-	public abstract void clear(@NotNull String mailSenderUUID, @NotNull String mailReceiverUUID, @NotNull String time, @NotNull String mail);
+	public abstract void saveHome(@NotNull Player player, @NotNull String arg);
+
+	public abstract void clear(@NotNull String playerUUID, @NotNull String arg);
 
 }

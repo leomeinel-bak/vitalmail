@@ -1,6 +1,6 @@
 /*
  * VitalMail is a Spigot Plugin that gives players the ability to set homes and teleport to them.
- * Copyright © 2022 Leopold Meinel
+ * Copyright © 2022 Leopold Meinel & contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,10 @@
 
 package com.tamrielnetwork.vitalmail;
 
-import com.tamrielnetwork.vitalmail.commands.VitalMailCmd;
+import com.tamrielnetwork.vitalmail.commands.VitalDelHomeCmd;
+import com.tamrielnetwork.vitalmail.commands.VitalHomeCmd;
+import com.tamrielnetwork.vitalmail.commands.VitalHomesCmd;
+import com.tamrielnetwork.vitalmail.commands.VitalSethomeCmd;
 import com.tamrielnetwork.vitalmail.files.Messages;
 import com.tamrielnetwork.vitalmail.storage.MailStorage;
 import com.tamrielnetwork.vitalmail.storage.MailStorageSql;
@@ -36,7 +39,7 @@ public final class VitalMail extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-		Objects.requireNonNull(getCommand("vitalmail")).setExecutor(new VitalMailCmd());
+		registerCommands();
 
 		saveDefaultConfig();
 
@@ -59,13 +62,23 @@ public final class VitalMail extends JavaPlugin {
 
 	private void setupStorage() {
 
-		String storageSystem = getConfig().getString("sql-system");
+		String storageSystem = getConfig().getString("storage-system");
 
 		if (Objects.requireNonNull(storageSystem).equalsIgnoreCase("mysql")) {
 			this.mailStorage = new MailStorageSql();
 		} else {
 			this.mailStorage = new MailStorageYaml();
 		}
+	}
+
+	private void registerCommands() {
+
+		Objects.requireNonNull(getCommand("home")).setExecutor(new VitalHomeCmd());
+		Objects.requireNonNull(getCommand("home")).setTabCompleter(new VitalHomeCmd());
+		Objects.requireNonNull(getCommand("homes")).setExecutor(new VitalHomesCmd());
+		Objects.requireNonNull(getCommand("sethome")).setExecutor(new VitalSethomeCmd());
+		Objects.requireNonNull(getCommand("delhome")).setExecutor(new VitalDelHomeCmd());
+		Objects.requireNonNull(getCommand("delhome")).setTabCompleter(new VitalDelHomeCmd());
 	}
 
 	public Messages getMessages() {

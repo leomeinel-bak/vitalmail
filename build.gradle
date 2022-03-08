@@ -30,7 +30,7 @@ processResources {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "TamrielNetwork_VitalMail"
+        property "sonar.projectKey", "TamrielNetwork_VitalHome"
         property "sonar.organization", "tamrielnetwork"
         property "sonar.host.url", "https://sonarcloud.io"
     }

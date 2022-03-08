@@ -1,6 +1,6 @@
 /*
  * VitalMail is a Spigot Plugin that gives players the ability to set homes and teleport to them.
- * Copyright © 2022 Leopold Meinel
+ * Copyright © 2022 Leopold Meinel & contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,56 +18,111 @@
 
 package com.tamrielnetwork.vitalmail.utils.commands;
 
+import com.google.common.collect.ImmutableMap;
+import com.tamrielnetwork.vitalmail.VitalMail;
 import com.tamrielnetwork.vitalmail.utils.Chat;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 public class CmdSpec {
 
-	public static boolean isInvalidLocation(@NotNull CommandSender sender, Location location) {
+	private static final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
+	private static final List<UUID> onActiveDelay = new ArrayList<>();
 
-		if (location == null) {
-			Bukkit.getLogger().severe("VitalMail cannot find homelocation in database");
-			Chat.sendMessage(sender, "invalid-home");
-			return true;
-		}
-		if (location.getWorld() == null) {
-			Bukkit.getLogger().severe("VitalMail cannot find world in database");
-			Chat.sendMessage(sender, "invalid-home");
-			return true;
-		}
-		return false;
-	}
+	public static void doDelay(@NotNull CommandSender sender, Location location) {
 
-	public static int getAllowedMails(Player player, int defaultValue) {
+		Player senderPlayer = (Player) sender;
 
-		String permissionPrefix = "vitalmail.mails.";
-
-		for (PermissionAttachmentInfo attachmentInfo : player.getEffectivePermissions()) {
-			if (attachmentInfo.getPermission().startsWith(permissionPrefix)) {
-				String permission = attachmentInfo.getPermission();
-				return Integer.parseInt(permission.substring(permission.lastIndexOf(".") + 1));
+		if (!senderPlayer.hasPermission("vitalspawn.delay.bypass")) {
+			if (onActiveDelay.contains(senderPlayer.getUniqueId())) {
+				Chat.sendMessage(sender, "active-delay");
+				return;
 			}
-		}
+			onActiveDelay.add(senderPlayer.getUniqueId());
+			String timeRemaining = String.valueOf(main.getConfig().getLong("delay.time"));
+			Chat.sendMessage(senderPlayer, ImmutableMap.of("%countdown%", timeRemaining), "countdown");
+			new BukkitRunnable() {
 
-		player.sendMessage(String.valueOf(defaultValue));
-		return defaultValue;
+				@Override
+				public void run() {
+
+					if (Cmd.isInvalidPlayer(senderPlayer)) {
+						onActiveDelay.remove(senderPlayer.getUniqueId());
+						return;
+					}
+
+					senderPlayer.teleport(location);
+					onActiveDelay.remove(senderPlayer.getUniqueId());
+				}
+			}.runTaskLater(main, (main.getConfig().getLong("delay.time") * 20L));
+		} else {
+			senderPlayer.teleport(location);
+		}
 	}
 
-	public static boolean isInvalidCmd(@NotNull CommandSender sender, OfflinePlayer player, @NotNull String perm) {
+	public static boolean isInvalidCmd(@NotNull CommandSender sender, @NotNull String perm, @NotNull String arg) {
 
 		if (Cmd.isInvalidSender(sender)) {
 			return true;
 		}
+
 		if (Cmd.isNotPermitted(sender, perm)) {
 			return true;
 		}
-		return Cmd.isInvalidPlayer(sender, player);
+
+		return isInvalidName(sender, arg);
+	}
+
+	public static boolean isInvalidCmd(@NotNull CommandSender sender, @NotNull String perm) {
+
+		if (Cmd.isInvalidSender(sender)) {
+			return true;
+		}
+
+		return Cmd.isNotPermitted(sender, perm);
+	}
+
+	public static boolean isInvalidLocation(Location location) {
+
+		if (location == null) {
+			return true;
+		}
+		return location.getWorld() == null;
+	}
+
+	public static int getAllowedHomes(@NotNull Player player, int defaultValue) {
+
+		List<Integer> values = new ArrayList<>();
+		values.add(defaultValue);
+
+		String permissionPrefix = "vitalmail.homes.";
+
+		for (PermissionAttachmentInfo attachmentInfo : player.getEffectivePermissions()) {
+			if (attachmentInfo.getPermission().startsWith(permissionPrefix)) {
+				String permission = attachmentInfo.getPermission();
+				values.add(Integer.parseInt(permission.substring(permission.lastIndexOf(".") + 1)));
+			}
+		}
+		return Collections.max(values);
+	}
+
+	private static boolean isInvalidName(@NotNull CommandSender sender, @NotNull String arg) {
+
+		if (!arg.toLowerCase().matches("[a-z0-9]{1,16}")) {
+			Chat.sendMessage(sender, "invalid-name");
+			return true;
+		}
+		return false;
 	}
 
 }

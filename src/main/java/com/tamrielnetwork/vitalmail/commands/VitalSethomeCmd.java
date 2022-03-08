@@ -16,45 +16,42 @@
  * along with this program. If not, see https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalmail.utils.commands;
+package com.tamrielnetwork.vitalmail.commands;
 
-import com.tamrielnetwork.vitalmail.utils.Chat;
+import com.tamrielnetwork.vitalmail.VitalMail;
+import com.tamrielnetwork.vitalmail.utils.commands.Cmd;
+import com.tamrielnetwork.vitalmail.utils.commands.CmdSpec;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class Cmd {
+public class VitalSethomeCmd implements CommandExecutor {
 
-	public static boolean isArgsLengthNotEqualTo(@NotNull CommandSender sender, @NotNull String[] args, int length) {
+	private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
-		if (args.length != length) {
-			Chat.sendMessage(sender, "cmd");
+	@Override
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
+		if (Cmd.isArgsLengthNotEqualTo(sender, args, 1)) {
 			return true;
 		}
-		return false;
+		setHome(sender, args[0]);
+		return true;
+
 	}
 
-	public static boolean isNotPermitted(@NotNull CommandSender sender, @NotNull String perm) {
+	private void setHome(@NotNull CommandSender sender, String arg) {
 
-		if (!sender.hasPermission(perm)) {
-			Chat.sendMessage(sender, "no-perms");
-			return true;
+		if (CmdSpec.isInvalidCmd(sender, "vitalmail.sethome", arg)) {
+			return;
 		}
-		return false;
-	}
+		Player senderPlayer = (Player) sender;
 
-	public static boolean isInvalidSender(@NotNull CommandSender sender) {
+		main.getHomeStorage().saveHome(senderPlayer, arg.toLowerCase());
 
-		if (!(sender instanceof Player)) {
-			Chat.sendMessage(sender, "player-only");
-			return true;
-		}
-		return false;
-	}
-
-	public static boolean isInvalidPlayer(Player player) {
-
-		return !player.isOnline();
 	}
 
 }

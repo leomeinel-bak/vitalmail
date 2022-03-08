@@ -1,6 +1,6 @@
 /*
  * VitalMail is a Spigot Plugin that gives players the ability to set homes and teleport to them.
- * Copyright © 2022 Leopold Meinel
+ * Copyright © 2022 Leopold Meinel & contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,10 +22,7 @@ import com.tamrielnetwork.vitalmail.utils.Chat;
 import com.tamrielnetwork.vitalmail.utils.commands.CmdSpec;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -33,95 +30,105 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
 public class MailStorageYaml extends MailStorage {
 
-	private final File mailFile;
-	private final FileConfiguration mailConf;
+	private static final String IOEXCEPTION = "VitalMail encountered an IOException while executing task";
+	private static final String HOME = "home.";
+	private static final String WORLD = ".world";
+	private final File homeFile;
+	private final FileConfiguration homeConf;
 
 	public MailStorageYaml() {
 
-		mailFile = new File(main.getDataFolder(), "mail.yml");
-		mailConf = YamlConfiguration.loadConfiguration(mailFile);
+		homeFile = new File(main.getDataFolder(), "home.yml");
+		homeConf = YamlConfiguration.loadConfiguration(homeFile);
 		save();
 	}
 
 	@Override
-	public String loadMail(@NotNull Player mailReceiver, @NotNull OfflinePlayer mailSender, @NotNull String time, @NotNull String mail) {
+	public Location loadHome(@NotNull Player player, @NotNull String arg) {
 
-		String mailReceiverUUID = mailReceiver.getUniqueId().toString();
-		String mailSenderUUID = mailSender.getUniqueId().toString();
+		String playerUUID = player.getUniqueId().toString();
 
-		if (mailConf.getString("mail." + mailReceiverUUID + ".inbox") == null) {
-			Bukkit.getLogger().severe("VitalMail cannot find mail in mail.yml");
+		if (homeConf.getString(HOME + playerUUID + "." + arg + WORLD) == null) {
 			return null;
 		}
+		World world = Bukkit.getWorld(Objects.requireNonNull(homeConf.getString(HOME + playerUUID + "." + arg + WORLD)));
+		int x = homeConf.getInt(HOME + playerUUID + "." + arg + ".x");
+		int y = homeConf.getInt(HOME + playerUUID + "." + arg + ".y");
+		int z = homeConf.getInt(HOME + playerUUID + "." + arg + ".z");
+		int yaw = homeConf.getInt(HOME + playerUUID + "." + arg + ".yaw");
+		int pitch = homeConf.getInt(HOME + playerUUID + "." + arg + ".pitch");
 
-		return mailConf.getString("mail." + mailReceiverUUID + ".inbox");
+		return new Location(world, x, y, z, yaw, pitch);
 	}
 
 	@Override
-	public void saveMail(@NotNull Player mailSender, @NotNull OfflinePlayer mailReceiver, @NotNull String time, @NotNull String mail) {
+	public Set<String> listHome(@NotNull Player player) {
 
-		String mailSenderUUID = mailSender.getUniqueId().toString();
-		String mailReceiverUUID = mailReceiver.getUniqueId().toString();
+		String playerUUID = player.getUniqueId().toString();
+		Set<String> homes;
 
-		if (mailConf.getConfigurationSection("mail." + mailSenderUUID + ".outbox") != null) {
-			@NotNull Set<String> keys = Objects.requireNonNull(mailConf.getConfigurationSection("mail." + mailSenderUUID + ".outbox")).getKeys(false);
+		if (homeConf.getString(HOME + playerUUID) == null) {
+			return Collections.emptySet();
+		}
+		homes = Objects.requireNonNull(homeConf.getConfigurationSection(HOME + playerUUID)).getKeys(false);
 
-			if (keys.size() >= CmdSpec.getAllowedMails(mailSender, 2)) {
-				Chat.sendMessage(mailSender, "max-mails");
+		return homes;
+	}
+
+	@Override
+	public void saveHome(@NotNull Player player, @NotNull String arg) {
+
+		String playerUUID = player.getUniqueId().toString();
+		Location location = player.getLocation();
+
+		if (homeConf.getConfigurationSection(HOME + playerUUID) != null) {
+			@NotNull Set<String> keys = Objects.requireNonNull(homeConf.getConfigurationSection(HOME + playerUUID)).getKeys(false);
+
+			if (keys.size() >= CmdSpec.getAllowedHomes(player, 1) && !keys.contains(arg)) {
+				Chat.sendMessage(player, "max-homes");
 				return;
 			}
 		}
-		Chat.sendMessage(mailSender, "mail-sent");
-		Chat.sendMessage(mailReceiver, "mail-received");
+		Chat.sendMessage(player, "home-set");
 
-		clear(mailSenderUUID, mailReceiverUUID, mail, time);
+		clear(playerUUID, arg);
 
-		mailConf.set("mail." + mailSenderUUID + ".outbox" + time, mail);
-		mailConf.set("mail." + mailReceiverUUID + ".inbox." + time, mail);
+		homeConf.set(HOME + playerUUID + "." + arg + WORLD, location.getWorld().getName());
+		homeConf.set(HOME + playerUUID + "." + arg + ".x", (int) location.getX());
+		homeConf.set(HOME + playerUUID + "." + arg + ".y", (int) location.getY());
+		homeConf.set(HOME + playerUUID + "." + arg + ".z", (int) location.getZ());
+		homeConf.set(HOME + playerUUID + "." + arg + ".yaw", (int) location.getYaw());
+		homeConf.set(HOME + playerUUID + "." + arg + ".pitch", (int) location.getPitch());
 
 		save();
 	}
 
 	@Override
-	public void clear(@NotNull String mailSenderUUID, @NotNull String mailReceiverUUID, @NotNull String time, @NotNull String mail) {
+	public void clear(@NotNull String playerUUID, @NotNull String arg) {
 
-		String inbox = "mail." + mailReceiverUUID + ".inbox" + time;
-		String outbox = "mail." + mailSenderUUID + ".outbox" + time;
-
-
-		if (!Objects.equals(mailConf.getConfigurationSection(inbox), null) || !Objects.equals(mailConf.getConfigurationSection(outbox), null)) {
+		if (homeConf.getConfigurationSection(HOME + playerUUID) == null) {
 			return;
 		}
-
-		ConfigurationSection inboxSection = mailConf.getConfigurationSection(inbox);
-		ConfigurationSection outboxSection = mailConf.getConfigurationSection(outbox);
-		assert inboxSection != null;
-		assert outboxSection != null;
-
-		for (String key : inboxSection.getKeys(false)) {
-			if (Objects.equals(key, inbox)) {
-				mailConf.set(key, null);
+		for (String key : Objects.requireNonNull(homeConf.getConfigurationSection(HOME + playerUUID)).getKeys(false)) {
+			if (Objects.equals(key, arg)) {
+				homeConf.set(HOME + playerUUID + "." + key, null);
 			}
 		}
-
-		for (String key : outboxSection.getKeys(false)) {
-			if (Objects.equals(key, outbox)) {
-				mailConf.set(key, null);
-			}
-		}
+		save();
 	}
 
 	public void save() {
 
 		try {
-			mailConf.save(mailFile);
-		} catch (IOException e) {
-			e.printStackTrace();
+			homeConf.save(homeFile);
+		} catch (IOException ignored) {
+			Bukkit.getLogger().info(IOEXCEPTION);
 		}
 	}
 

@@ -6,16 +6,31 @@ authors: [ Tamriel Network ]
 website: https://tamriel.site
 description: Gives players the ability to set homes and teleport to them.
 commands:
-  vitalmail:
+  home:
     description: "Main command"
-    usage: "/vitalmail"
+    usage: "/home"
+  sethome:
+    description: "Main command"
+    usage: "/sethome"
+  delhome:
+    description: "Main command"
+    usage: "/delhome"
+  homes:
+    description: "Main command"
+    usage: "/homes"
 permissions:
-  vitalmail.read:
-    description: "Permission to read mail"
+  vitalhome.home:
+    description: "Permission to teleport home"
     default: op
-  vitalmail.send:
-    description: "Permission to send mail"
+  vitalhome.sethome:
+    description: "Permission to set a home"
     default: op
-  vitalmail.mails:
-    description: "Permission with number of mails a player can send (fex. vitalmail.mails.2 = 2 mails)"
+  vitalhome.homes:
+    description: "Permission with number of homes a player can set (fex. vitalmail.homes.2 = 2 homes)"
+    default: op
+  vitalhome.list:
+    description: "Permission to list homes"
+    default: op
+  vitalhome.delay.bypass:
+    description: "Permission to bypass delay"
     default: op

@@ -1,6 +1,6 @@
 /*
  * VitalMail is a Spigot Plugin that gives players the ability to set homes and teleport to them.
- * Copyright © 2022 Leopold Meinel
+ * Copyright © 2022 Leopold Meinel & contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,11 +31,14 @@ import java.sql.SQLException;
 
 public class SqlManager {
 
-	private static final String SQLEXCEPTION = "VitalSpawn encountered an SQLException while executing task";
+	private static final String SQLEXCEPTION = "VitalMail encountered an SQLException while executing task";
 	private static Connection connection;
 	private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 	private final int port;
-	private final String host, database, username, password;
+	private final String host;
+	private final String database;
+	private final String username;
+	private final String password;
 
 	public SqlManager() {
 
@@ -47,12 +50,10 @@ public class SqlManager {
 
 		enableConnection();
 
-		try {
-			PreparedStatement statementSpawnTable = SqlManager.getConnection()
-					.prepareStatement("CREATE TABLE IF NOT EXISTS " + Sql.getPrefix() + "Home (`UUID` TEXT, `Home` TEXT, `World` TEXT, `X` INT, `Y` INT, `Z` INT, `Yaw` INT, `Pitch` INT)");
+		try (PreparedStatement statementSpawnTable = SqlManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS " + Sql.getPrefix() + "Home (`UUID` TEXT, `Home` TEXT, `World` TEXT, `X` INT, `Y` INT, `Z` INT, `Yaw` INT, `Pitch` INT)")) {
 			statementSpawnTable.executeUpdate();
 		} catch (SQLException ignored) {
-			Bukkit.getLogger().info(SQLEXCEPTION);
+			Bukkit.getLogger().warning(SQLEXCEPTION);
 		}
 	}
 
@@ -77,7 +78,7 @@ public class SqlManager {
 
 			main.getLogger().info("Connected successfully with the database!");
 		} catch (SQLException ignored) {
-			Bukkit.getLogger().info(SQLEXCEPTION);
+			Bukkit.getLogger().warning(SQLEXCEPTION);
 		}
 	}
 
