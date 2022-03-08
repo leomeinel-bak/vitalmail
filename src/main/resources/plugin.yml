@@ -10,18 +10,12 @@ commands:
     description: "Main command"
     usage: "/home"
 permissions:
-  vitalhome.home:
-    description: "Permission to teleport home"
+  vitalmail.send:
+    description: "Permission to send mail"
     default: op
-  vitalhome.sethome:
-    description: "Permission to set a home"
+  vitalmail.read:
+    description: "Permission to read mail"
     default: op
-  vitalhome.homes:
-    description: "Permission with number of homes a player can set (fex. vitalhome.homes.2 = 2 homes)"
-    default: op
-  vitalhome.list:
-    description: "Permission to list homes"
-    default: op
-  vitalhome.delay.bypass:
-    description: "Permission to bypass delay"
+  vitalmail.clear:
+    description: "Permission to clear mail)"
     default: op
