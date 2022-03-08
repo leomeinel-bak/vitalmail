@@ -1,5 +1,5 @@
 # Command delay
-delay:
+cooldown:
   enabled: true
   # time in s
   time: 3
