@@ -50,8 +50,8 @@
 	<li>
 	  <a href="#configuration">Configuration</a>
       <ul>
-        <li><a href="#config.yml">config.yml</a></li>
-		<li><a href="#messages.yml">messages.yml</a></li>
+        <li><a href="#configyml">config.yml</a></li>
+		<li><a href="#messagesyml">messages.yml</a></li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
