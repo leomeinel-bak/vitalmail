@@ -43,7 +43,7 @@ public class VitalMailCmd implements TabExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-		if (Cmd.isArgsLengthSmallerThan(sender, args, 2)) {
+		if (Cmd.isArgsLengthSmallerThan(sender, args, 1)) {
 			return false;
 		}
 		switch (args[0].toLowerCase()) {
@@ -61,30 +61,17 @@ public class VitalMailCmd implements TabExecutor {
 
 	private void doSend(@NotNull CommandSender sender, @NotNull String[] args) {
 
+		if (Cmd.isArgsLengthSmallerThan(sender, args, 3)) {
+			return;
+		}
+
 		@Deprecated OfflinePlayer receiverPlayer = Bukkit.getOfflinePlayer(args[1]);
 		if (CmdSpec.isInvalidCmd(sender, receiverPlayer, "vitalmail.send", args)) {
 			return;
 		}
-
 		Player senderPlayer = (Player) sender;
 
-		StringBuilder mailBuilder = new StringBuilder();
-		for (String arg : args) {
-			if (arg.equals(args[0]) || arg.equals(args[1])) {
-				continue;
-			}
-			if (arg.equals(args[2])) {
-				mailBuilder.append(arg);
-				continue;
-			}
-			mailBuilder.append(" ").append(arg);
-		}
-
-		long time = System.currentTimeMillis();
-		String timeString = Long.toString(time);
-		String mail = mailBuilder.toString();
-
-		main.getMailStorage().saveMail(receiverPlayer, senderPlayer, timeString, mail);
+		CmdSpec.sendMail(args, receiverPlayer, senderPlayer);
 
 	}
 
@@ -95,15 +82,9 @@ public class VitalMailCmd implements TabExecutor {
 		}
 		Player senderPlayer = (Player) sender;
 		String receiverUUID = senderPlayer.getUniqueId().toString();
+		List<Map<String, String>> mailList = main.getMailStorage().loadMail(receiverUUID);
 
-		List<Map<String, Map<String, String>>> mailList = main.getMailStorage().loadMail(receiverUUID);
-
-		if (mailList.isEmpty()) {
-			Chat.sendMessage(sender, "no-mail");
-			return;
-		}
-
-		sender.sendMessage(Chat.replaceColors(mailList.toString()));
+		CmdSpec.readMail(sender, receiverUUID, mailList);
 
 	}
 
@@ -135,29 +116,11 @@ public class VitalMailCmd implements TabExecutor {
 			if (sender.hasPermission("vitalmail.clear")) {
 				tabComplete.add("clear");
 			}
+		} else {
+			return null;
 		}
 
 		return tabComplete;
 	}
-
-
-
-	/*
-	send mail (saveMail())
-	/mail send leop2 <mail>
-	read mail (listMail())
-	-> reads inbox in pages
-	/mail read
-	delete mail (clear())
-	-> clears whole inbox
-	/mail clear
-
-	prefix.mail -> receiverUUID, senderUUID, time, mail
-	mail.receiverUUID.senderUUID.time
-
-	Have max mails in each inbox for senderUUID
-	Have cooldown
-
-	 */
 
 }

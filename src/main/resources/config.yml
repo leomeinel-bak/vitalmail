@@ -2,7 +2,7 @@
 cooldown:
   enabled: true
   # time in s
-  time: 3
+  time: 60
 
 # Choose a storage system (mysql or yaml)
 storage-system: yaml
@@ -10,7 +10,7 @@ storage-system: yaml
 mysql:
   host: "localhost"
   port: 3306
-  database: vitalhome
-  username: "vitalhome"
+  database: vitalmail
+  username: "vitalmail"
   password: ""
   prefix: "server_"

@@ -20,6 +20,7 @@ package com.tamrielnetwork.vitalhome.utils.commands;
 
 import com.tamrielnetwork.vitalhome.VitalMail;
 import com.tamrielnetwork.vitalhome.utils.Chat;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,7 +28,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -39,6 +44,58 @@ public class CmdSpec {
 	private CmdSpec() {
 
 		throw new IllegalStateException("Utility class");
+	}
+
+	public static void sendMail(@NotNull String @NotNull [] args, OfflinePlayer receiverPlayer, Player senderPlayer) {
+
+		StringBuilder mailBuilder = new StringBuilder();
+		for (String arg : args) {
+			if (arg.equals(args[0]) || arg.equals(args[1])) continue;
+			mailBuilder.append(" ").append(arg);
+		}
+		if (mailBuilder.length() > 64) {
+			Chat.sendMessage(senderPlayer, "invalid-mail");
+			return;
+		}
+
+		long time = System.currentTimeMillis();
+		String timeString = Long.toString(time);
+		String mail = mailBuilder.toString();
+
+		main.getMailStorage().saveMail(receiverPlayer, senderPlayer, timeString, mail);
+	}
+
+	public static void readMail(@NotNull CommandSender sender, String receiverUUID, List<Map<String, String>> mailList) {
+
+		if (mailList == null || mailList.isEmpty()) {
+			Chat.sendMessage(sender, "no-mail");
+			return;
+		}
+
+		final String NOENTRYEXCEPTION = "Invalid Entry found inside: mail/" + receiverUUID + ".yml";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss (MM/dd/yy)");
+		List<String> senders = new ArrayList<>();
+		List<String> times = new ArrayList<>();
+		List<String> mails = new ArrayList<>();
+
+		for (Map<String, String> map : mailList) {
+			for (Map.Entry<String, String> entrySet : map.entrySet()) {
+				switch (entrySet.getKey()) {
+					case "senderUUID" -> senders.add(Bukkit.getOfflinePlayer(UUID.fromString(entrySet.getValue())).getName());
+					case "time" -> times.add(simpleDateFormat.format(new Date(Long.parseLong(entrySet.getValue()))));
+					case "mail" -> mails.add(entrySet.getValue());
+					default -> Bukkit.getLogger().warning(NOENTRYEXCEPTION);
+				}
+			}
+		}
+
+		StringBuilder mailBuilder = new StringBuilder();
+
+		for (int i = 0; i < senders.size(); i++) {
+			mailBuilder.append("&b").append(senders.get(i)).append(" &f@ &d").append(times.get(i)).append("\n&f&l->&r").append(mails.get(i));
+			sender.sendMessage(Chat.replaceColors(mailBuilder.toString()));
+			mailBuilder = new StringBuilder();
+		}
 	}
 
 	public static boolean isInvalidCmd(@NotNull CommandSender sender, OfflinePlayer player, @NotNull String perm, @NotNull String[] args) {
@@ -55,7 +112,7 @@ public class CmdSpec {
 			return true;
 		}
 
-		if (isInvalidName(sender, args)) {
+		if (isInvalidWord(sender, args)) {
 			return true;
 		}
 
@@ -70,30 +127,12 @@ public class CmdSpec {
 
 		return Cmd.isNotPermitted(sender, perm);
 	}
-/*
-	public static int getAllowedMails(@NotNull OfflinePlayer player, int defaultValue) {
 
-		List<Integer> values = new ArrayList<>();
-		values.add(defaultValue);
-
-		String permissionPrefix = "vitalhome.homes.";
-
-		for (PermissionAttachmentInfo attachmentInfo : player.getEffectivePermissions()) {
-			if (attachmentInfo.getPermission().startsWith(permissionPrefix)) {
-				String permission = attachmentInfo.getPermission();
-				values.add(Integer.parseInt(permission.substring(permission.lastIndexOf(".") + 1)));
-			}
-		}
-		return Collections.max(values);
-	}
-
- */
-
-	private static boolean isInvalidName(@NotNull CommandSender sender, @NotNull String[] args) {
+	private static boolean isInvalidWord(@NotNull CommandSender sender, @NotNull String[] args) {
 
 		for (String arg : args) {
-			if (!arg.toLowerCase().matches("[a-z0-9]{1,16}")) {
-				Chat.sendMessage(sender, "invalid-mail");
+			if (!arg.toLowerCase().matches("[a-z0-9.,!?;]{1,16}")) {
+				Chat.sendMessage(sender, "invalid-word");
 				return true;
 			}
 		}

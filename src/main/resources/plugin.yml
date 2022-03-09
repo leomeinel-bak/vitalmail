@@ -19,3 +19,6 @@ permissions:
   vitalmail.clear:
     description: "Permission to clear mail)"
     default: op
+  vitalmail.cooldown.bypass:
+    description: "Bypass cooldown"
+    default: op

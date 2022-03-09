@@ -31,7 +31,7 @@ public abstract class MailStorage {
 
 	protected final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
-	public abstract List<Map<String, Map<String, String>>> loadMail(@NotNull String receiverUUID);
+	public abstract List<Map<String, String>> loadMail(@NotNull String receiverUUID);
 
 	public abstract void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time, @NotNull String mail);
 

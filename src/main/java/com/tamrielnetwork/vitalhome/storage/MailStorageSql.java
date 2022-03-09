@@ -31,7 +31,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -46,10 +45,9 @@ public class MailStorageSql extends MailStorage {
 	}
 
 	@Override
-	public List<Map<String, Map<String, String>>> loadMail(@NotNull String receiverUUID) {
+	public List<Map<String, String>> loadMail(@NotNull String receiverUUID) {
 
-		List<Map<String, Map<String, String>>> mailList = new ArrayList<>();
-		Map<String, Map<String, String>> mailMap = new HashMap<>();
+		List<Map<String, String>> mailList = new ArrayList<>();
 
 		try (PreparedStatement selectStatement = SqlManager.getConnection().prepareStatement("SELECT * FROM " + Sql.getPrefix() + "Mail")) {
 			try (ResultSet rs = selectStatement.executeQuery()) {
@@ -57,14 +55,15 @@ public class MailStorageSql extends MailStorage {
 					if (!Objects.equals(rs.getString(1), receiverUUID) || rs.getString(1) == null) {
 						continue;
 					}
-					mailMap.put(rs.getString(4), Map.of(rs.getString(3), rs.getString(2)));
+					mailList.add(Map.of("senderUUID", rs.getString(2)));
+					mailList.add(Map.of("time", rs.getString(3)));
+					mailList.add(Map.of("mail", rs.getString(4)));
 				}
 			}
 		} catch (SQLException ignored) {
 			Bukkit.getLogger().warning(SQLEXCEPTION);
 			return Collections.emptyList();
 		}
-		mailList.add(mailMap);
 		return mailList;
 	}
 
@@ -73,24 +72,11 @@ public class MailStorageSql extends MailStorage {
 
 		String senderUUID = senderPlayer.getUniqueId().toString();
 		String receiverUUID = receiverPlayer.getUniqueId().toString();
-/*		int mails = 0;
 
-		try (PreparedStatement selectStatement = SqlManager.getConnection().prepareStatement("SELECT COUNT(*) FROM " + Sql.getPrefix() + "Mail WHERE `ReceiverUUID`=" + "'" + receiverUUID + "'")) {
-			try (ResultSet rs = selectStatement.executeQuery()) {
-				rs.next();
-				mails = rs.getInt(1);
-			}
-		} catch (SQLException ignored) {
-			Bukkit.getLogger().warning(SQLEXCEPTION);
-		}
-
-		if (mails >= CmdSpec.getAllowedMails(receiverPlayer, 1)) {
+		if (loadMail(receiverUUID).size() >= 6 * 3) {
 			Chat.sendMessage(senderPlayer, "inbox-full");
 			return;
 		}
-
- */
-		Chat.sendMessage(senderPlayer, "mail-sent");
 
 		try (PreparedStatement insertStatement = SqlManager.getConnection().prepareStatement("INSERT INTO " + Sql.getPrefix() + "Mail (`ReceiverUUID`, `SenderUUID`, `Time`, `Mail`) VALUES (?, ?, ?, ?)")) {
 			insertStatement.setString(1, receiverUUID);
@@ -101,6 +87,8 @@ public class MailStorageSql extends MailStorage {
 		} catch (SQLException ignored) {
 			Bukkit.getLogger().warning(SQLEXCEPTION);
 		}
+
+		Chat.sendMessage(senderPlayer, "mail-sent");
 	}
 
 	@Override

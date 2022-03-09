@@ -21,18 +21,15 @@ package com.tamrielnetwork.vitalhome.storage;
 import com.tamrielnetwork.vitalhome.utils.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,9 +37,9 @@ import java.util.Map;
 public class MailStorageYaml extends MailStorage {
 
 	private static final String IOEXCEPTION = "VitalMail encountered an IOException while executing task";
-	private static final String CLASSNOTFOUNDEXCEPTION = "VitalCondense encountered a ClassNotFoundException while executing task";
 	private final File mailFolder;
 	private File mailFile;
+	private FileConfiguration mailConf;
 
 	public MailStorageYaml() {
 
@@ -53,53 +50,51 @@ public class MailStorageYaml extends MailStorage {
 	}
 
 	@Override
-	public List<Map<String, Map<String, String>>> loadMail(@NotNull String receiverUUID) {
+	public List<Map<String, String>> loadMail(@NotNull String receiverUUID) {
 
-		List<Map<String, Map<String, String>>> mail = new ArrayList<>();
 		mailFile = new File(mailFolder, receiverUUID + ".yml");
+		mailConf = YamlConfiguration.loadConfiguration(mailFile);
 
-		try (FileInputStream fileIn = new FileInputStream(mailFile); ObjectInputStream in = new ObjectInputStream(fileIn)) {
-			mail = (List<Map<String, Map<String, String>>>) in.readObject();
-
-		} catch (IOException | ClassNotFoundException ignored) {
-			Bukkit.getLogger().warning(IOEXCEPTION);
-			Bukkit.getLogger().warning(CLASSNOTFOUNDEXCEPTION);
-		}
-		return mail;
+		return (List<Map<String, String>>) mailConf.getList("mail");
 	}
 
 	@Override
 	public void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time, @NotNull String mail) {
 
+		List<Map<String, String>> mailList = new ArrayList<>();
 		String receiverUUID = receiverPlayer.getUniqueId().toString();
 		String senderUUID = senderPlayer.getUniqueId().toString();
 		mailFile = new File(mailFolder, receiverUUID + ".yml");
-/*
-		if (loadMail(receiverUUID).size() >= CmdSpec.getAllowedMails(receiverPlayer, 1)) {
-			Chat.sendMessage(senderPlayer, "inbox-full");
-			return;
+		final String CREATEFILEEXCEPTION = "VitalMail is not able to create: mail/" + receiverUUID + ".yml";
+
+		if (!mailFile.exists()) {
+			try {
+				if (!mailFile.createNewFile()) {
+					Bukkit.getLogger().warning(CREATEFILEEXCEPTION);
+				}
+			} catch (IOException ignored) {
+				Bukkit.getLogger().warning(IOEXCEPTION);
+			}
 		}
 
- */
+		mailConf = YamlConfiguration.loadConfiguration(mailFile);
 
-		List<Map<String, Map<String, String>>> mailList = new ArrayList<>();
-		Map<String, Map<String, String>> mailMap = new HashMap<>();
+		mailList.add(Map.of("senderUUID", senderUUID));
+		mailList.add(Map.of("time", time));
+		mailList.add(Map.of("mail", mail));
 
-		mailMap.put(senderUUID, Map.of(time, mail));
-
-		if (!loadMail(receiverUUID).isEmpty()) {
+		if (mailFile.length() > 0) {
 			mailList.addAll(loadMail(receiverUUID));
+			if (loadMail(receiverUUID).size() >= 6 * 3) {
+				Chat.sendMessage(senderPlayer, "inbox-full");
+				return;
+			}
 		}
 
-		mailList.add(mailMap);
-
-		try (FileOutputStream fileOut = new FileOutputStream(mailFile); ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-			out.writeObject(mailList);
-		} catch (IOException ignored) {
-			Bukkit.getLogger().warning(IOEXCEPTION);
-		}
-
+		mailConf.set("mail", mailList);
 		Chat.sendMessage(senderPlayer, "mail-sent");
+
+		save(mailFile, mailConf);
 
 	}
 
@@ -108,10 +103,21 @@ public class MailStorageYaml extends MailStorage {
 
 		mailFile = new File(mailFolder, receiverUUID + ".yml");
 
+		if (mailFile.exists()) {
+			try {
+				Files.delete(mailFile.toPath());
+			} catch (IOException ignored) {
+				Bukkit.getLogger().warning(IOEXCEPTION);
+			}
+		}
+	}
+
+	public void save(File mailFile, FileConfiguration mailConf) {
+
 		try {
-			Files.delete(mailFile.toPath());
+			mailConf.save(mailFile);
 		} catch (IOException ignored) {
-			Bukkit.getLogger().warning(IOEXCEPTION);
+			Bukkit.getLogger().info(IOEXCEPTION);
 		}
 	}
 
