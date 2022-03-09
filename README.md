@@ -45,7 +45,13 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#commands-and-permissions">Commands and Permissions</a></li>
-        <li><a href="#configuration">Configuration</a></li>
+	  </ul>
+	</li>
+	<li>
+	  <a href="#configuration">Configuration</a>
+      <ul>
+        <li><a href="#config.yml">config.yml</a></li>
+		<li><a href="#messages.yml">messages.yml</a></li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -102,7 +108,9 @@ To get the plugin running on your server follow these simple steps.
 
 * Description: Bypass cooldown
 
-### Configuration - config.yml
+## Configuration
+
+### config.yml
 
 ```
 # Command delay
@@ -123,7 +131,7 @@ mysql:
   prefix: "server_"
 ```
 
-### Configuration - messages.yml
+### messages.yml
 
 ```
 cmd: "&fUsage: &b/home <name> &for &b/sethome <name>"
