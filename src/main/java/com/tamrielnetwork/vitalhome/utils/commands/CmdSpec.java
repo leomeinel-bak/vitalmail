@@ -89,12 +89,8 @@ public class CmdSpec {
 			}
 		}
 
-		StringBuilder mailBuilder = new StringBuilder();
-
 		for (int i = 0; i < senders.size(); i++) {
-			mailBuilder.append("&b").append(senders.get(i)).append(" &f@ &d").append(times.get(i)).append("\n&f&l->&r").append(mails.get(i));
-			sender.sendMessage(Chat.replaceColors(mailBuilder.toString()));
-			mailBuilder = new StringBuilder();
+			sender.sendMessage(Chat.replaceColors("&b" + senders.get(i) + " &f@ &d" + times.get(i) + "\n&f&l->&r" + mails.get(i)));
 		}
 	}
 
