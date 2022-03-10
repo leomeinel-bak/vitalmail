@@ -25,6 +25,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerJoin implements Listener {
@@ -37,9 +38,16 @@ public class PlayerJoin implements Listener {
 		Player player = event.getPlayer();
 		String receiverUUID = player.getUniqueId().toString();
 
-		if(main.getMailStorage().hasMail(receiverUUID)) {
-			Chat.sendMessage(player, "new-mail");
-		}
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+
+				if(main.getMailStorage().hasMail(receiverUUID)) {
+					Chat.sendMessage(player, "new-mail");
+				}
+			}
+		}.runTaskLaterAsynchronously(main, 20);
 
 	}
 
