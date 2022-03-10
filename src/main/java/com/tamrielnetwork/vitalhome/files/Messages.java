@@ -1,6 +1,6 @@
 /*
- * VitalMail is a Spigot Plugin that gives players the ability to set homes and teleport to them.
- * Copyright © 2022 Leopold Meinel & contributors
+ * VitalMail is a Spigot Plugin that gives players the ability to write mail to offline players.
+ * Copyright © 2022 Leopold Meinel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE
+ * along with this program. If not, see https://github.com/TamrielNetwork/VitalMail/blob/main/LICENSE
  */
 
 package com.tamrielnetwork.vitalhome.files;
