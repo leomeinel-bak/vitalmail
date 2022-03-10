@@ -128,7 +128,7 @@ public class MailStorageYaml extends MailStorage {
 	@Override
 	public boolean hasMail(@NotNull String receiverUUID) {
 
-		return !loadMail(receiverUUID).isEmpty();
+		return loadMail(receiverUUID) != null && !loadMail(receiverUUID).isEmpty();
 	}
 
 }
