@@ -20,6 +20,7 @@ package com.tamrielnetwork.vitalhome;
 
 import com.tamrielnetwork.vitalhome.commands.VitalMailCmd;
 import com.tamrielnetwork.vitalhome.files.Messages;
+import com.tamrielnetwork.vitalhome.listeners.PlayerJoin;
 import com.tamrielnetwork.vitalhome.storage.MailStorage;
 import com.tamrielnetwork.vitalhome.storage.MailStorageSql;
 import com.tamrielnetwork.vitalhome.storage.MailStorageYaml;
@@ -35,6 +36,8 @@ public final class VitalMail extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+
+		registerListeners();
 
 		registerCommands();
 
@@ -66,6 +69,11 @@ public final class VitalMail extends JavaPlugin {
 		} else {
 			this.mailStorage = new MailStorageYaml();
 		}
+	}
+
+	private void registerListeners() {
+
+		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 	}
 
 	private void registerCommands() {

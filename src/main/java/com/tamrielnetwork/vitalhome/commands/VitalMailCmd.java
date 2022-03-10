@@ -64,9 +64,10 @@ public class VitalMailCmd implements TabExecutor {
 		if (Cmd.isArgsLengthSmallerThan(sender, args, 3)) {
 			return;
 		}
-
+		StringBuilder mailBuilder = new StringBuilder();
 		@Deprecated OfflinePlayer receiverPlayer = Bukkit.getOfflinePlayer(args[1]);
-		if (CmdSpec.isInvalidCmd(sender, receiverPlayer, "vitalmail.send", args)) {
+
+		if (CmdSpec.isInvalidCmd(sender, receiverPlayer, "vitalmail.send", args, mailBuilder)) {
 			return;
 		}
 		Player senderPlayer = (Player) sender;

@@ -37,4 +37,6 @@ public abstract class MailStorage {
 
 	public abstract void clear(@NotNull String receiverUUID);
 
+	public abstract boolean hasMail(@NotNull String receiverUUID);
+
 }

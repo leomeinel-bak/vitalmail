@@ -32,6 +32,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @SuppressWarnings ("unchecked")
 public class MailStorageYaml extends MailStorage {
@@ -93,8 +94,11 @@ public class MailStorageYaml extends MailStorage {
 
 		mailConf.set("mail", mailList);
 		Chat.sendMessage(senderPlayer, "mail-sent");
-
 		save(mailFile, mailConf);
+
+		if (receiverPlayer.isOnline()) {
+			Chat.sendMessage(Objects.requireNonNull(receiverPlayer.getPlayer()), Map.of("%player%", senderPlayer.getName()), "mail-received");
+		}
 
 	}
 
@@ -119,6 +123,12 @@ public class MailStorageYaml extends MailStorage {
 		} catch (IOException ignored) {
 			Bukkit.getLogger().info(IOEXCEPTION);
 		}
+	}
+
+	@Override
+	public boolean hasMail(@NotNull String receiverUUID) {
+
+		return !loadMail(receiverUUID).isEmpty();
 	}
 
 }

@@ -89,6 +89,10 @@ public class MailStorageSql extends MailStorage {
 		}
 
 		Chat.sendMessage(senderPlayer, "mail-sent");
+
+		if (receiverPlayer.isOnline()) {
+			Chat.sendMessage(Objects.requireNonNull(receiverPlayer.getPlayer()), Map.of("%player%", senderPlayer.getName()), "mail-received");
+		}
 	}
 
 	@Override
@@ -99,6 +103,12 @@ public class MailStorageSql extends MailStorage {
 		} catch (SQLException ignored) {
 			Bukkit.getLogger().warning(SQLEXCEPTION);
 		}
+	}
+
+	@Override
+	public boolean hasMail(@NotNull String receiverUUID) {
+
+		return !loadMail(receiverUUID).isEmpty();
 	}
 
 }
