@@ -97,8 +97,8 @@ public class VitalMailCmd
 	}
 
 	@Override
-	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
-	                                            @NotNull String alias, @NotNull String[] args) {
+	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias,
+	                                            @NotNull String[] args) {
 		@Nullable List<String> tabComplete = new ArrayList<>();
 		if (args.length == 1) {
 			if (sender.hasPermission("vitalmail.send")) {

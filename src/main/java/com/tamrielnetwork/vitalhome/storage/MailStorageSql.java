@@ -80,7 +80,8 @@ public class MailStorageSql
 			return;
 		}
 		try (PreparedStatement insertStatement = SqlManager.getConnection()
-		                                                   .prepareStatement("INSERT INTO " + Sql.getPrefix() + "Mail (`ReceiverUUID`, `SenderUUID`, `Time`, `Mail`) VALUES (?, ?, ?, ?)")) {
+		                                                   .prepareStatement(
+				                                                   "INSERT INTO " + Sql.getPrefix() + "Mail (`ReceiverUUID`, `SenderUUID`, `Time`, `Mail`) VALUES (?, ?, ?, ?)")) {
 			insertStatement.setString(1, receiverUUID);
 			insertStatement.setString(2, senderUUID);
 			insertStatement.setString(3, time);
@@ -93,14 +94,16 @@ public class MailStorageSql
 		}
 		Chat.sendMessage(senderPlayer, "mail-sent");
 		if (receiverPlayer.isOnline()) {
-			Chat.sendMessage(Objects.requireNonNull(receiverPlayer.getPlayer()), Map.of("%player%", senderPlayer.getName()), "mail-received");
+			Chat.sendMessage(Objects.requireNonNull(receiverPlayer.getPlayer()), Map.of("%player%", senderPlayer.getName()),
+			                 "mail-received");
 		}
 	}
 
 	@Override
 	public void clear(@NotNull String receiverUUID) {
 		try (PreparedStatement deleteStatement = SqlManager.getConnection()
-		                                                   .prepareStatement("DELETE FROM " + Sql.getPrefix() + "Mail WHERE `ReceiverUUID`=" + "'" + receiverUUID + "'")) {
+		                                                   .prepareStatement(
+				                                                   "DELETE FROM " + Sql.getPrefix() + "Mail WHERE `ReceiverUUID`=" + "'" + receiverUUID + "'")) {
 			deleteStatement.executeUpdate();
 		}
 		catch (SQLException ignored) {

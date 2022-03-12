@@ -65,8 +65,7 @@ public class CmdSpec {
 		    .saveMail(receiverPlayer, senderPlayer, timeString, mail);
 	}
 
-	public static void readMail(@NotNull CommandSender sender, String receiverUUID,
-	                            List<Map<String, String>> mailList) {
+	public static void readMail(@NotNull CommandSender sender, String receiverUUID, List<Map<String, String>> mailList) {
 		if (mailList == null || mailList.isEmpty()) {
 			Chat.sendMessage(sender, "no-mail");
 			return;
@@ -89,7 +88,8 @@ public class CmdSpec {
 			}
 		}
 		for (int i = 0; i < senders.size(); i++) {
-			sender.sendMessage(Chat.replaceColors("&b" + senders.get(i) + " &f@ &d" + times.get(i) + "\n&f&l->&r" + mails.get(i)));
+			sender.sendMessage(
+					Chat.replaceColors("&b" + senders.get(i) + " &f@ &d" + times.get(i) + "\n&f&l->&r" + mails.get(i)));
 		}
 	}
 
@@ -152,9 +152,11 @@ public class CmdSpec {
 	private static boolean isOnCooldown(@NotNull CommandSender sender) {
 		Player senderPlayer = (Player) sender;
 		boolean isOnCooldown = main.getConfig()
-		                           .getBoolean("cooldown.enabled") && !sender.hasPermission("vitalskull.cooldown.bypass") && cooldownMap.containsKey(senderPlayer.getUniqueId());
+		                           .getBoolean("cooldown.enabled") && !sender.hasPermission(
+				"vitalskull.cooldown.bypass") && cooldownMap.containsKey(senderPlayer.getUniqueId());
 		if (isOnCooldown) {
-			String timeRemaining = String.valueOf(cooldownMap.get(senderPlayer.getUniqueId()) - System.currentTimeMillis() / 1000);
+			String timeRemaining = String.valueOf(
+					cooldownMap.get(senderPlayer.getUniqueId()) - System.currentTimeMillis() / 1000);
 			Chat.sendMessage(sender, Map.of("%time-left%", timeRemaining), "cooldown-active");
 			return true;
 		}
