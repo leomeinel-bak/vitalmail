@@ -53,9 +53,9 @@ public class SqlManager {
 		                    .getString("mysql.password");
 		enableConnection();
 		try (PreparedStatement statementSpawnTable = SqlManager.getConnection()
-		                                                       .prepareStatement(
-				                                                       "CREATE TABLE IF NOT EXISTS " + Sql.getPrefix()
-				                                                       + "Mail (`ReceiverUUID` TEXT, `SenderUUID` TEXT, `Time` TEXT, `Mail` TEXT)")) {
+		                                                       .prepareStatement("CREATE TABLE IF NOT EXISTS ?"
+		                                                                         + "Mail (`ReceiverUUID` TEXT, `SenderUUID` TEXT, `Time` TEXT, `Mail` TEXT)")) {
+			statementSpawnTable.setString(1, Sql.getPrefix());
 			statementSpawnTable.executeUpdate();
 		}
 		catch (SQLException ignored) {

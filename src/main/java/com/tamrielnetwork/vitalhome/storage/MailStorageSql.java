@@ -48,8 +48,8 @@ public class MailStorageSql
 	public List<Map<String, String>> loadMail(@NotNull String receiverUUID) {
 		List<Map<String, String>> mailList = new ArrayList<>();
 		try (PreparedStatement selectStatement = SqlManager.getConnection()
-		                                                   .prepareStatement(
-				                                                   "SELECT * FROM " + Sql.getPrefix() + "Mail")) {
+		                                                   .prepareStatement("SELECT * FROM ?" + "Mail")) {
+			selectStatement.setString(1, Sql.getPrefix());
 			try (ResultSet rs = selectStatement.executeQuery()) {
 				while (rs.next()) {
 					if (!Objects.equals(rs.getString(1), receiverUUID) || rs.getString(1) == null) {
@@ -81,12 +81,13 @@ public class MailStorageSql
 			return;
 		}
 		try (PreparedStatement insertStatement = SqlManager.getConnection()
-		                                                   .prepareStatement("INSERT INTO " + Sql.getPrefix()
+		                                                   .prepareStatement("INSERT INTO ?"
 		                                                                     + "Mail (`ReceiverUUID`, `SenderUUID`, `Time`, `Mail`) VALUES (?, ?, ?, ?)")) {
-			insertStatement.setString(1, receiverUUID);
-			insertStatement.setString(2, senderUUID);
-			insertStatement.setString(3, time);
-			insertStatement.setString(4, mail);
+			insertStatement.setString(1, Sql.getPrefix());
+			insertStatement.setString(2, receiverUUID);
+			insertStatement.setString(3, senderUUID);
+			insertStatement.setString(4, time);
+			insertStatement.setString(5, mail);
 			insertStatement.executeUpdate();
 		}
 		catch (SQLException ignored) {
@@ -103,9 +104,10 @@ public class MailStorageSql
 	@Override
 	public void clear(@NotNull String receiverUUID) {
 		try (PreparedStatement deleteStatement = SqlManager.getConnection()
-		                                                   .prepareStatement("DELETE FROM " + Sql.getPrefix()
-		                                                                     + "Mail WHERE `ReceiverUUID`=" + "'"
-		                                                                     + receiverUUID + "'")) {
+		                                                   .prepareStatement(
+				                                                   "DELETE FROM ?" + "Mail WHERE `ReceiverUUID`=?")) {
+			deleteStatement.setString(1, Sql.getPrefix());
+			deleteStatement.setString(2, "'" + receiverUUID + "'");
 			deleteStatement.executeUpdate();
 		}
 		catch (SQLException ignored) {

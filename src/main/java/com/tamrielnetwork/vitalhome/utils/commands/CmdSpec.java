@@ -95,7 +95,7 @@ public class CmdSpec {
 	}
 
 	public static boolean isInvalidCmd(@NotNull CommandSender sender, OfflinePlayer player, @NotNull String perm,
-	                                   @NotNull String[] args, @NotNull StringBuilder mailBuilder) {
+	                                   @NotNull StringBuilder mailBuilder) {
 		if (Cmd.isInvalidSender(sender)) {
 			return true;
 		}
@@ -105,7 +105,7 @@ public class CmdSpec {
 		if (Cmd.isInvalidPlayer(sender, player)) {
 			return true;
 		}
-		if (isInvalidMail(sender, args, mailBuilder)) {
+		if (isInvalidMail(sender, mailBuilder)) {
 			return true;
 		}
 		return isOnCooldown(sender);
@@ -118,15 +118,7 @@ public class CmdSpec {
 		return Cmd.isNotPermitted(sender, perm);
 	}
 
-	private static boolean isInvalidMail(@NotNull CommandSender sender, @NotNull String[] args,
-	                                     @NotNull StringBuilder mailBuilder) {
-		for (String arg : args) {
-			if (!arg.toLowerCase()
-			        .matches("[a-z0-9.,!?;]{1,16}")) {
-				Chat.sendMessage(sender, "invalid-word");
-				return true;
-			}
-		}
+	private static boolean isInvalidMail(@NotNull CommandSender sender, @NotNull StringBuilder mailBuilder) {
 		if (mailBuilder.length() > 64) {
 			Chat.sendMessage(sender, "invalid-mail");
 			return true;

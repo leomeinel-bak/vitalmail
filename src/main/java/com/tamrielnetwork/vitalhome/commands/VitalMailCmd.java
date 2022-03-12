@@ -65,7 +65,7 @@ public class VitalMailCmd
 		}
 		StringBuilder mailBuilder = new StringBuilder();
 		@Deprecated OfflinePlayer receiverPlayer = Bukkit.getOfflinePlayer(args[1]);
-		if (CmdSpec.isInvalidCmd(sender, receiverPlayer, "vitalmail.send", args, mailBuilder)) {
+		if (CmdSpec.isInvalidCmd(sender, receiverPlayer, "vitalmail.send", mailBuilder)) {
 			return;
 		}
 		Player senderPlayer = (Player) sender;
