@@ -107,7 +107,7 @@ public class MailStorageSql
 		                                                   .prepareStatement(
 				                                                   "DELETE FROM ?" + "Mail WHERE `ReceiverUUID`=?")) {
 			deleteStatement.setString(1, Sql.getPrefix());
-			deleteStatement.setString(2, "'" + receiverUUID + "'");
+			deleteStatement.setString(2, receiverUUID);
 			deleteStatement.executeUpdate();
 		}
 		catch (SQLException ignored) {
