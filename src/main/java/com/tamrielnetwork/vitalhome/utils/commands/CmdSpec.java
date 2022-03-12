@@ -65,7 +65,8 @@ public class CmdSpec {
 		    .saveMail(receiverPlayer, senderPlayer, timeString, mail);
 	}
 
-	public static void readMail(@NotNull CommandSender sender, String receiverUUID, List<Map<String, String>> mailList) {
+	public static void readMail(@NotNull CommandSender sender, String receiverUUID,
+	                            List<Map<String, String>> mailList) {
 		if (mailList == null || mailList.isEmpty()) {
 			Chat.sendMessage(sender, "no-mail");
 			return;

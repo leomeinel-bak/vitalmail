@@ -95,8 +95,8 @@ public class MailStorageYaml
 		Chat.sendMessage(senderPlayer, "mail-sent");
 		save(mailFile, mailConf);
 		if (receiverPlayer.isOnline()) {
-			Chat.sendMessage(Objects.requireNonNull(receiverPlayer.getPlayer()), Map.of("%player%", senderPlayer.getName()),
-			                 "mail-received");
+			Chat.sendMessage(Objects.requireNonNull(receiverPlayer.getPlayer()),
+			                 Map.of("%player%", senderPlayer.getName()), "mail-received");
 		}
 	}
 
