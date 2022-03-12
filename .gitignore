@@ -43,6 +43,7 @@ out/
 *.ipr
 *.iws
 !.idea/copyright
+!.idea/codeStyles
 
 ##############################
 ## Eclipse

@@ -33,10 +33,10 @@ public abstract class MailStorage {
 
 	public abstract List<Map<String, String>> loadMail(@NotNull String receiverUUID);
 
-	public abstract void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time, @NotNull String mail);
+	public abstract void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time,
+	                              @NotNull String mail);
 
 	public abstract void clear(@NotNull String receiverUUID);
 
 	public abstract boolean hasMail(@NotNull String receiverUUID);
-
 }

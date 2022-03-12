@@ -26,13 +26,11 @@ public class Sql {
 	private static final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
 	private Sql() {
-
 		throw new IllegalStateException("Utility class");
 	}
 
 	public static String getPrefix() {
-
-		return main.getConfig().getString("mysql.prefix");
+		return main.getConfig()
+		           .getString("mysql.prefix");
 	}
-
 }

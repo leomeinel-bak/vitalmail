@@ -1,9 +1,6 @@
 ---
-name: Feature Request
-about: Create a feature request to expand the plugin
-title: ''
-labels: 'enhancement'
-assignees: ''
+name: Feature Request about: Create a feature request to expand the plugin title: ''
+labels: 'enhancement' assignees: ''
 
 ---
 

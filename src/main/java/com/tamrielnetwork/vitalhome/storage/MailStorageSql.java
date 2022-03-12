@@ -35,21 +35,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class MailStorageSql extends MailStorage {
+public class MailStorageSql
+		extends MailStorage {
 
 	private static final String SQLEXCEPTION = "VitalMail encountered an SQLException while executing task";
 
 	public MailStorageSql() {
-
 		new SqlManager();
 	}
 
 	@Override
 	public List<Map<String, String>> loadMail(@NotNull String receiverUUID) {
-
 		List<Map<String, String>> mailList = new ArrayList<>();
-
-		try (PreparedStatement selectStatement = SqlManager.getConnection().prepareStatement("SELECT * FROM " + Sql.getPrefix() + "Mail")) {
+		try (PreparedStatement selectStatement = SqlManager.getConnection()
+		                                                   .prepareStatement("SELECT * FROM " + Sql.getPrefix() + "Mail")) {
 			try (ResultSet rs = selectStatement.executeQuery()) {
 				while (rs.next()) {
 					if (!Objects.equals(rs.getString(1), receiverUUID) || rs.getString(1) == null) {
@@ -60,36 +59,39 @@ public class MailStorageSql extends MailStorage {
 					mailList.add(Map.of("mail", rs.getString(4)));
 				}
 			}
-		} catch (SQLException ignored) {
-			Bukkit.getLogger().warning(SQLEXCEPTION);
+		}
+		catch (SQLException ignored) {
+			Bukkit.getLogger()
+			      .warning(SQLEXCEPTION);
 			return Collections.emptyList();
 		}
 		return mailList;
 	}
 
 	@Override
-	public void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time, @NotNull String mail) {
-
-		String senderUUID = senderPlayer.getUniqueId().toString();
-		String receiverUUID = receiverPlayer.getUniqueId().toString();
-
+	public void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time,
+	                     @NotNull String mail) {
+		String senderUUID = senderPlayer.getUniqueId()
+		                                .toString();
+		String receiverUUID = receiverPlayer.getUniqueId()
+		                                    .toString();
 		if (loadMail(receiverUUID).size() >= 6 * 3) {
 			Chat.sendMessage(senderPlayer, "inbox-full");
 			return;
 		}
-
-		try (PreparedStatement insertStatement = SqlManager.getConnection().prepareStatement("INSERT INTO " + Sql.getPrefix() + "Mail (`ReceiverUUID`, `SenderUUID`, `Time`, `Mail`) VALUES (?, ?, ?, ?)")) {
+		try (PreparedStatement insertStatement = SqlManager.getConnection()
+		                                                   .prepareStatement("INSERT INTO " + Sql.getPrefix() + "Mail (`ReceiverUUID`, `SenderUUID`, `Time`, `Mail`) VALUES (?, ?, ?, ?)")) {
 			insertStatement.setString(1, receiverUUID);
 			insertStatement.setString(2, senderUUID);
 			insertStatement.setString(3, time);
 			insertStatement.setString(4, mail);
 			insertStatement.executeUpdate();
-		} catch (SQLException ignored) {
-			Bukkit.getLogger().warning(SQLEXCEPTION);
 		}
-
+		catch (SQLException ignored) {
+			Bukkit.getLogger()
+			      .warning(SQLEXCEPTION);
+		}
 		Chat.sendMessage(senderPlayer, "mail-sent");
-
 		if (receiverPlayer.isOnline()) {
 			Chat.sendMessage(Objects.requireNonNull(receiverPlayer.getPlayer()), Map.of("%player%", senderPlayer.getName()), "mail-received");
 		}
@@ -97,18 +99,18 @@ public class MailStorageSql extends MailStorage {
 
 	@Override
 	public void clear(@NotNull String receiverUUID) {
-
-		try (PreparedStatement deleteStatement = SqlManager.getConnection().prepareStatement("DELETE FROM " + Sql.getPrefix() + "Mail WHERE `ReceiverUUID`=" + "'" + receiverUUID + "'")) {
+		try (PreparedStatement deleteStatement = SqlManager.getConnection()
+		                                                   .prepareStatement("DELETE FROM " + Sql.getPrefix() + "Mail WHERE `ReceiverUUID`=" + "'" + receiverUUID + "'")) {
 			deleteStatement.executeUpdate();
-		} catch (SQLException ignored) {
-			Bukkit.getLogger().warning(SQLEXCEPTION);
+		}
+		catch (SQLException ignored) {
+			Bukkit.getLogger()
+			      .warning(SQLEXCEPTION);
 		}
 	}
 
 	@Override
 	public boolean hasMail(@NotNull String receiverUUID) {
-
 		return !loadMail(receiverUUID).isEmpty();
 	}
-
 }

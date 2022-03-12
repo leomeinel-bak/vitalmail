@@ -28,27 +28,25 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-public class PlayerJoin implements Listener {
+public class PlayerJoin
+		implements Listener {
 
 	private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
 	@EventHandler
 	public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-
 		Player player = event.getPlayer();
-		String receiverUUID = player.getUniqueId().toString();
-
+		String receiverUUID = player.getUniqueId()
+		                            .toString();
 		new BukkitRunnable() {
 
 			@Override
 			public void run() {
-
-				if(main.getMailStorage().hasMail(receiverUUID)) {
+				if (main.getMailStorage()
+				        .hasMail(receiverUUID)) {
 					Chat.sendMessage(player, "new-mail");
 				}
 			}
 		}.runTaskLaterAsynchronously(main, 20);
-
 	}
-
 }

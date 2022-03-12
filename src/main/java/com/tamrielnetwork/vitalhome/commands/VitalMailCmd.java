@@ -36,13 +36,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class VitalMailCmd implements TabExecutor {
+public class VitalMailCmd
+		implements TabExecutor {
 
 	private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label,
+	                         @NotNull String[] args) {
 		if (Cmd.isArgsLengthSmallerThan(sender, args, 1)) {
 			return false;
 		}
@@ -56,57 +57,49 @@ public class VitalMailCmd implements TabExecutor {
 			}
 		}
 		return true;
-
 	}
 
 	private void doSend(@NotNull CommandSender sender, @NotNull String[] args) {
-
 		if (Cmd.isArgsLengthSmallerThan(sender, args, 3)) {
 			return;
 		}
 		StringBuilder mailBuilder = new StringBuilder();
 		@Deprecated OfflinePlayer receiverPlayer = Bukkit.getOfflinePlayer(args[1]);
-
 		if (CmdSpec.isInvalidCmd(sender, receiverPlayer, "vitalmail.send", args, mailBuilder)) {
 			return;
 		}
 		Player senderPlayer = (Player) sender;
-
 		CmdSpec.sendMail(args, receiverPlayer, senderPlayer);
-
 	}
 
 	private void doRead(@NotNull CommandSender sender) {
-
 		if (CmdSpec.isInvalidCmd(sender, "vitalmail.read")) {
 			return;
 		}
 		Player senderPlayer = (Player) sender;
-		String receiverUUID = senderPlayer.getUniqueId().toString();
-		List<Map<String, String>> mailList = main.getMailStorage().loadMail(receiverUUID);
-
+		String receiverUUID = senderPlayer.getUniqueId()
+		                                  .toString();
+		List<Map<String, String>> mailList = main.getMailStorage()
+		                                         .loadMail(receiverUUID);
 		CmdSpec.readMail(sender, receiverUUID, mailList);
-
 	}
 
 	private void doClear(@NotNull CommandSender sender) {
-
 		if (CmdSpec.isInvalidCmd(sender, "vitalmail.clear")) {
 			return;
 		}
 		Player senderPlayer = (Player) sender;
-		String receiverUUID = senderPlayer.getUniqueId().toString();
-
-		main.getMailStorage().clear(receiverUUID);
+		String receiverUUID = senderPlayer.getUniqueId()
+		                                  .toString();
+		main.getMailStorage()
+		    .clear(receiverUUID);
 		Chat.sendMessage(sender, "mail-cleared");
-
 	}
 
 	@Override
-	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-
+	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
+	                                            @NotNull String alias, @NotNull String[] args) {
 		@Nullable List<String> tabComplete = new ArrayList<>();
-
 		if (args.length == 1) {
 			if (sender.hasPermission("vitalmail.send")) {
 				tabComplete.add("send");
@@ -117,11 +110,10 @@ public class VitalMailCmd implements TabExecutor {
 			if (sender.hasPermission("vitalmail.clear")) {
 				tabComplete.add("clear");
 			}
-		} else {
+		}
+		else {
 			return null;
 		}
-
 		return tabComplete;
 	}
-
 }

@@ -29,68 +29,68 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
-public final class VitalMail extends JavaPlugin {
+public final class VitalMail
+		extends JavaPlugin {
 
 	private MailStorage mailStorage;
 	private Messages messages;
 
 	@Override
 	public void onEnable() {
-
 		registerListeners();
-
 		registerCommands();
-
 		saveDefaultConfig();
-
 		setupStorage();
-
 		messages = new Messages();
-
-		Bukkit.getLogger().info("VitalMail v" + this.getDescription().getVersion() + " enabled");
-		Bukkit.getLogger().info("Copyright (C) 2022 Leopold Meinel");
-		Bukkit.getLogger().info("This program comes with ABSOLUTELY NO WARRANTY!");
-		Bukkit.getLogger().info("This is free software, and you are welcome to redistribute it under certain conditions.");
-		Bukkit.getLogger().info("See https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE for more details.");
+		Bukkit.getLogger()
+		      .info("VitalMail v" + this.getDescription()
+		                                .getVersion() + " enabled");
+		Bukkit.getLogger()
+		      .info("Copyright (C) 2022 Leopold Meinel");
+		Bukkit.getLogger()
+		      .info("This program comes with ABSOLUTELY NO WARRANTY!");
+		Bukkit.getLogger()
+		      .info("This is free software, and you are welcome to redistribute it under certain conditions.");
+		Bukkit.getLogger()
+		      .info("See https://github.com/TamrielNetwork/VitalHome/blob/main/LICENSE for more details.");
 	}
 
 	@Override
 	public void onDisable() {
-
-		Bukkit.getLogger().info("VitalMail v" + this.getDescription().getVersion() + " disabled");
+		Bukkit.getLogger()
+		      .info("VitalMail v" + this.getDescription()
+		                                .getVersion() + " disabled");
 	}
 
 	private void setupStorage() {
-
 		String storageSystem = getConfig().getString("storage-system");
-
-		if (Objects.requireNonNull(storageSystem).equalsIgnoreCase("mysql")) {
+		if (Objects.requireNonNull(storageSystem)
+		           .equalsIgnoreCase("mysql")) {
 			this.mailStorage = new MailStorageSql();
-		} else {
+		}
+		else {
 			this.mailStorage = new MailStorageYaml();
 		}
 	}
 
 	private void registerListeners() {
-
-		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+		getServer().getPluginManager()
+		           .registerEvents(new PlayerJoin(), this);
 	}
 
 	private void registerCommands() {
-
-		Objects.requireNonNull(getCommand("mail")).setExecutor(new VitalMailCmd());
-		Objects.requireNonNull(getCommand("mail")).setTabCompleter(new VitalMailCmd());
+		Objects.requireNonNull(getCommand("mail"))
+		       .setExecutor(new VitalMailCmd());
+		Objects.requireNonNull(getCommand("mail"))
+		       .setTabCompleter(new VitalMailCmd());
 	}
 
 	public Messages getMessages() {
-
 		return messages;
 	}
 
 	public MailStorage getMailStorage() {
-
 		return mailStorage;
 	}
-
 }
 
