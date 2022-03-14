@@ -48,7 +48,8 @@ public class MailStorageSql
 	public List<Map<String, String>> loadMail(@NotNull String receiverUUID) {
 		List<Map<String, String>> mailList = new ArrayList<>();
 		try (PreparedStatement selectStatement = SqlManager.getConnection()
-		                                                   .prepareStatement("SELECT * FROM " + Sql.getPrefix() + "Mail")) {
+		                                                   .prepareStatement(
+				                                                   "SELECT * FROM " + Sql.getPrefix() + "Mail")) {
 			try (ResultSet rs = selectStatement.executeQuery()) {
 				while (rs.next()) {
 					if (!Objects.equals(rs.getString(1), receiverUUID) || rs.getString(1) == null) {
@@ -102,8 +103,8 @@ public class MailStorageSql
 	@Override
 	public void clear(@NotNull String receiverUUID) {
 		try (PreparedStatement deleteStatement = SqlManager.getConnection()
-		                                                   .prepareStatement(
-				                                                   "DELETE FROM " + Sql.getPrefix() + "Mail WHERE `ReceiverUUID`=?")) {
+		                                                   .prepareStatement("DELETE FROM " + Sql.getPrefix()
+		                                                                     + "Mail WHERE `ReceiverUUID`=?")) {
 			deleteStatement.setString(1, receiverUUID);
 			deleteStatement.executeUpdate();
 		}
