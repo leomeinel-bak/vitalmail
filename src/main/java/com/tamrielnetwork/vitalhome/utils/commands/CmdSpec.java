@@ -96,26 +96,12 @@ public class CmdSpec {
 
 	public static boolean isInvalidCmd(@NotNull CommandSender sender, OfflinePlayer player, @NotNull String perm,
 	                                   @NotNull StringBuilder mailBuilder) {
-		if (Cmd.isInvalidSender(sender)) {
-			return true;
-		}
-		if (Cmd.isNotPermitted(sender, perm)) {
-			return true;
-		}
-		if (Cmd.isInvalidPlayer(sender, player)) {
-			return true;
-		}
-		if (isInvalidMail(sender, mailBuilder)) {
-			return true;
-		}
-		return isOnCooldown(sender);
+		return Cmd.isInvalidSender(sender) || Cmd.isNotPermitted(sender, perm) || Cmd.isInvalidPlayer(sender, player)
+		       || isInvalidMail(sender, mailBuilder) || isOnCooldown(sender);
 	}
 
 	public static boolean isInvalidCmd(@NotNull CommandSender sender, @NotNull String perm) {
-		if (Cmd.isInvalidSender(sender)) {
-			return true;
-		}
-		return Cmd.isNotPermitted(sender, perm);
+		return Cmd.isInvalidSender(sender) || Cmd.isNotPermitted(sender, perm);
 	}
 
 	private static boolean isInvalidMail(@NotNull CommandSender sender, @NotNull StringBuilder mailBuilder) {
