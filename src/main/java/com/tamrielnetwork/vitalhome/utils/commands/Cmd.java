@@ -55,11 +55,7 @@ public class Cmd {
 	}
 
 	public static boolean isInvalidPlayer(@NotNull CommandSender sender, OfflinePlayer player) {
-		if (player == null) {
-			Chat.sendMessage(sender, "invalid-player");
-			return true;
-		}
-		if (!player.hasPlayedBefore()) {
+		if (player == null || !player.hasPlayedBefore()) {
 			Chat.sendMessage(sender, "invalid-player");
 			return true;
 		}
