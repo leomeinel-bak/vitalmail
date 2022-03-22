@@ -113,9 +113,4 @@ public class MailStorageSql
 			      .warning(SQLEXCEPTION);
 		}
 	}
-
-	@Override
-	public boolean hasMail(@NotNull String receiverUUID) {
-		return !loadMail(receiverUUID).isEmpty();
-	}
 }

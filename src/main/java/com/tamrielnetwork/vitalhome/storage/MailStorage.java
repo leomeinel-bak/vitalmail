@@ -38,5 +38,7 @@ public abstract class MailStorage {
 
 	public abstract void clear(@NotNull String receiverUUID);
 
-	public abstract boolean hasMail(@NotNull String receiverUUID);
+	public boolean hasMail(@NotNull String receiverUUID) {
+		return loadMail(receiverUUID) != null && !loadMail(receiverUUID).isEmpty();
+	}
 }

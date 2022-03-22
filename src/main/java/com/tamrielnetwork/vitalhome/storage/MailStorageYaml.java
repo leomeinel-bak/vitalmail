@@ -114,7 +114,7 @@ public class MailStorageYaml
 		}
 	}
 
-	public void save(File mailFile, FileConfiguration mailConf) {
+	private void save(File mailFile, FileConfiguration mailConf) {
 		try {
 			mailConf.save(mailFile);
 		}
@@ -122,10 +122,5 @@ public class MailStorageYaml
 			Bukkit.getLogger()
 			      .info(IOEXCEPTION);
 		}
-	}
-
-	@Override
-	public boolean hasMail(@NotNull String receiverUUID) {
-		return loadMail(receiverUUID) != null && !loadMail(receiverUUID).isEmpty();
 	}
 }
