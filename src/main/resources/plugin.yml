@@ -2,8 +2,7 @@ name: VitalMail
 version: @version@
 main: com.tamrielnetwork.vitalhome.VitalMail
 api-version: 1.17
-authors: [ Tamriel Network ]
-website: https://tamriel.site
+authors: [ Leopold Meinel ]
 description: Gives players the ability to set homes and teleport to them.
 commands:
   mail:
