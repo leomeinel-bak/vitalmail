@@ -10,7 +10,7 @@
 <!--suppress ALL -->
 <br />
 <p align="center">
-  <a href="https://github.com/TamrielNetwork/VitalMail">
+  <a href="https://github.com/LeoMeinel/VitalMail">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -19,14 +19,14 @@
   <p align="center">
     Send mail on Spigot and Paper
     <br />
-    <a href="https://github.com/TamrielNetwork/VitalMail"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/LeoMeinel/VitalMail"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/TamrielNetwork/VitalMail">View Demo</a>
+    <a href="https://github.com/LeoMeinel/VitalMail">View Demo</a>
     ·
-    <a href="https://github.com/TamrielNetwork/VitalMail/issues">Report Bug</a>
+    <a href="https://github.com/LeoMeinel/VitalMail/issues">Report Bug</a>
     ·
-    <a href="https://github.com/TamrielNetwork/VitalMail/issues">Request Feature</a>
+    <a href="https://github.com/LeoMeinel/VitalMail/issues">Request Feature</a>
   </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -154,7 +154,7 @@ cooldown-active: "&cYou can't use that command for another &b%time-left% &csecon
 
 ## Roadmap
 
-See the [open issues](https://github.com/TamrielNetwork/VitalMail/issues) for a list of proposed features (and known
+See the [open issues](https://github.com/LeoMeinel/VitalMail/issues) for a list of proposed features (and known
 issues).
 
 <!-- CONTRIBUTING -->
@@ -184,7 +184,7 @@ Leopold Meinel - [@TamrielN](https://twitter.com/TamrielN) - Twitter
 
 Leopold Meinel - [contact@tamriel.me](mailto:contact@tamriel.me) - eMail
 
-Project Link - [VitalMail](https://github.com/TamrielNetwork/VitalMail) - GitHub
+Project Link - [VitalMail](https://github.com/LeoMeinel/VitalMail) - GitHub
 
 <!-- ACKNOWLEDGEMENTS -->
 
@@ -194,26 +194,26 @@ Project Link - [VitalMail](https://github.com/TamrielNetwork/VitalMail) - GitHub
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[contributors-shield]: https://img.shields.io/github/contributors-anon/TamrielNetwork/VitalMail?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors-anon/LeoMeinel/VitalMail?style=for-the-badge
 
-[contributors-url]: https://github.com/TamrielNetwork/VitalMail/graphs/contributors
+[contributors-url]: https://github.com/LeoMeinel/VitalMail/graphs/contributors
 
-[forks-shield]: https://img.shields.io/github/forks/TamrielNetwork/VitalMail?label=Forks&style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/LeoMeinel/VitalMail?label=Forks&style=for-the-badge
 
-[forks-url]: https://github.com/TamrielNetwork/VitalMail/network/members
+[forks-url]: https://github.com/LeoMeinel/VitalMail/network/members
 
-[stars-shield]: https://img.shields.io/github/stars/TamrielNetwork/VitalMail?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/LeoMeinel/VitalMail?style=for-the-badge
 
-[stars-url]: https://github.com/TamrielNetwork/VitalMail/stargazers
+[stars-url]: https://github.com/LeoMeinel/VitalMail/stargazers
 
-[issues-shield]: https://img.shields.io/github/issues/TamrielNetwork/VitalMail?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/LeoMeinel/VitalMail?style=for-the-badge
 
-[issues-url]: https://github.com/TamrielNetwork/VitalMail/issues
+[issues-url]: https://github.com/LeoMeinel/VitalMail/issues
 
-[license-shield]: https://img.shields.io/github/license/TamrielNetwork/VitalMail?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/LeoMeinel/VitalMail?style=for-the-badge
 
-[license-url]: https://github.com/TamrielNetwork/VitalMail/blob/main/LICENSE
+[license-url]: https://github.com/LeoMeinel/VitalMail/blob/main/LICENSE
 
-[quality-shield]: https://img.shields.io/codefactor/grade/github/TamrielNetwork/VitalMail?style=for-the-badge
+[quality-shield]: https://img.shields.io/codefactor/grade/github/LeoMeinel/VitalMail?style=for-the-badge
 
-[quality-url]: https://www.codefactor.io/repository/github/TamrielNetwork/VitalMail
+[quality-url]: https://www.codefactor.io/repository/github/LeoMeinel/VitalMail
