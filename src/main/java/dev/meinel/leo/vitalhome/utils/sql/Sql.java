@@ -16,9 +16,9 @@
  * along with this program. If not, see https://github.com/LeoMeinel/VitalMail/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalhome.utils.sql;
+package dev.meinel.leo.vitalhome.utils.sql;
 
-import com.tamrielnetwork.vitalhome.VitalMail;
+import dev.meinel.leo.vitalhome.VitalMail;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Sql {

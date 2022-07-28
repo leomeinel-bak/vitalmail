@@ -16,37 +16,29 @@
  * along with this program. If not, see https://github.com/LeoMeinel/VitalMail/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalhome.listeners;
+package dev.meinel.leo.vitalhome.storage;
 
-import com.tamrielnetwork.vitalhome.VitalMail;
-import com.tamrielnetwork.vitalhome.utils.Chat;
+import dev.meinel.leo.vitalhome.VitalMail;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-public class PlayerJoin
-		implements Listener {
+import java.util.List;
+import java.util.Map;
 
-	private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
+public abstract class MailStorage {
 
-	@EventHandler
-	public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-		Player player = event.getPlayer();
-		String receiverUUID = player.getUniqueId()
-		                            .toString();
-		new BukkitRunnable() {
+	protected final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
-			@Override
-			public void run() {
-				if (main.getMailStorage()
-				        .hasMail(receiverUUID)) {
-					Chat.sendMessage(player, "new-mail");
-				}
-			}
-		}.runTaskLaterAsynchronously(main, 20);
+	public abstract List<Map<String, String>> loadMail(@NotNull String receiverUUID);
+
+	public abstract void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time,
+	                              @NotNull String mail);
+
+	public abstract void clear(@NotNull String receiverUUID);
+
+	public boolean hasMail(@NotNull String receiverUUID) {
+		return loadMail(receiverUUID) != null && !loadMail(receiverUUID).isEmpty();
 	}
 }

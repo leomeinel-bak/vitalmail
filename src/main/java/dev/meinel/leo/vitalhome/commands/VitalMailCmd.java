@@ -16,12 +16,12 @@
  * along with this program. If not, see https://github.com/LeoMeinel/VitalMail/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalhome.commands;
+package dev.meinel.leo.vitalhome.commands;
 
-import com.tamrielnetwork.vitalhome.VitalMail;
-import com.tamrielnetwork.vitalhome.utils.Chat;
-import com.tamrielnetwork.vitalhome.utils.commands.Cmd;
-import com.tamrielnetwork.vitalhome.utils.commands.CmdSpec;
+import dev.meinel.leo.vitalhome.VitalMail;
+import dev.meinel.leo.vitalhome.utils.Chat;
+import dev.meinel.leo.vitalhome.utils.commands.Cmd;
+import dev.meinel.leo.vitalhome.utils.commands.CmdSpec;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;

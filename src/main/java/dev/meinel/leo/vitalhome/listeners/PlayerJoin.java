@@ -16,34 +16,37 @@
  * along with this program. If not, see https://github.com/LeoMeinel/VitalMail/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalhome.files;
+package dev.meinel.leo.vitalhome.listeners;
 
-import com.tamrielnetwork.vitalhome.VitalMail;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import dev.meinel.leo.vitalhome.VitalMail;
+import dev.meinel.leo.vitalhome.utils.Chat;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-
-public class Messages {
+public class PlayerJoin
+		implements Listener {
 
 	private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
-	private final File messagesFile;
-	private final FileConfiguration messagesConf;
 
-	public Messages() {
-		messagesFile = new File(main.getDataFolder(), "messages.yml");
-		saveMessagesFile();
-		messagesConf = YamlConfiguration.loadConfiguration(messagesFile);
-	}
+	@EventHandler
+	public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		String receiverUUID = player.getUniqueId()
+		                            .toString();
+		new BukkitRunnable() {
 
-	private void saveMessagesFile() {
-		if (!messagesFile.exists()) {
-			main.saveResource("messages.yml", false);
-		}
-	}
-
-	public FileConfiguration getMessagesConf() {
-		return messagesConf;
+			@Override
+			public void run() {
+				if (main.getMailStorage()
+				        .hasMail(receiverUUID)) {
+					Chat.sendMessage(player, "new-mail");
+				}
+			}
+		}.runTaskLaterAsynchronously(main, 20);
 	}
 }

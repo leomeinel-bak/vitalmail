@@ -1,6 +1,6 @@
 name: VitalMail
 version: @version@
-main: com.tamrielnetwork.vitalhome.VitalMail
+main: dev.meinel.leo.vitalhome.VitalMail
 api-version: 1.17
 authors: [ Leopold Meinel ]
 description: Gives players the ability to set homes and teleport to them.

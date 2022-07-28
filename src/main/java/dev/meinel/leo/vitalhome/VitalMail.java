@@ -16,14 +16,14 @@
  * along with this program. If not, see https://github.com/LeoMeinel/VitalMail/blob/main/LICENSE
  */
 
-package com.tamrielnetwork.vitalhome;
+package dev.meinel.leo.vitalhome;
 
-import com.tamrielnetwork.vitalhome.commands.VitalMailCmd;
-import com.tamrielnetwork.vitalhome.files.Messages;
-import com.tamrielnetwork.vitalhome.listeners.PlayerJoin;
-import com.tamrielnetwork.vitalhome.storage.MailStorage;
-import com.tamrielnetwork.vitalhome.storage.MailStorageSql;
-import com.tamrielnetwork.vitalhome.storage.MailStorageYaml;
+import dev.meinel.leo.vitalhome.commands.VitalMailCmd;
+import dev.meinel.leo.vitalhome.files.Messages;
+import dev.meinel.leo.vitalhome.listeners.PlayerJoin;
+import dev.meinel.leo.vitalhome.storage.MailStorage;
+import dev.meinel.leo.vitalhome.storage.MailStorageSql;
+import dev.meinel.leo.vitalhome.storage.MailStorageYaml;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
