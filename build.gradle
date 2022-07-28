@@ -31,7 +31,7 @@ processResources {
 sonarqube {
     properties {
         property "sonar.projectKey", "LeoMeinel_VitalMail"
-        property "sonar.organization", "LeoMeinel"
+        property "sonar.organization", "leomeinel"
         property "sonar.host.url", "https://sonarcloud.io"
     }
 }
