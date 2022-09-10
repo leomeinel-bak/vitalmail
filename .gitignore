@@ -1,17 +1,86 @@
 ##############################
 ## Java
 ##############################
-.mtj.tmp/
 *.class
+*.log
+*.ctxt
+.mtj.tmp/
 *.jar
 *.war
-*.ear
 *.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
 hs_err_pid*
+replay_pid*
+
+##############################
+## C++
+##############################
+*.d
+*.slo
+*.lo
+*.o
+*.obj
+*.gch
+*.pch
+*.so
+*.dylib
+*.dll
+*.mod
+*.smod
+*.lai
+*.la
+*.a
+*.lib
+*.exe
+*.out
+*.app
+
+##############################
+## C
+##############################
+*.ko
+*.elf
+*.ilk
+*.map
+*.exp
+*.so.*
+*.i*86
+*.x86_64
+*.hex
+*.dSYM/
+*.su
+*.idb
+*.pdb
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+##############################
+## Rust
+##############################
+debug/
+target/
+Cargo.lock
+**/*.rs.bk
+
+##############################
+## Lua
+##############################
+luac.out
+*.src.rock
+*.os
+*.def
+
 ##############################
 ## Maven
 ##############################
-target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -42,8 +111,6 @@ out/
 *.iml
 *.ipr
 *.iws
-!.idea/copyright
-!.idea/codeStyles
 
 ##############################
 ## Eclipse
