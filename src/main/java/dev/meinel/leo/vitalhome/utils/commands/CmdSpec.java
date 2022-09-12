@@ -1,19 +1,11 @@
 /*
- * VitalMail is a Spigot Plugin that gives players the ability to write mail to offline players.
- * Copyright © 2022 Leopold Meinel
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://github.com/LeoMeinel/VitalMail/blob/main/LICENSE
+ * File: CmdSpec.java
+ * Author: Leopold Meinel (leo@meinel.dev)
+ * -----
+ * Copyright (c) 2022 Leopold Meinel & contributors
+ * SPDX ID: GPL-3.0-or-later
+ * URL: https://www.gnu.org/licenses/gpl-3.0-standalone.html
+ * -----
  */
 
 package dev.meinel.leo.vitalhome.utils.commands;
@@ -52,7 +44,7 @@ public class CmdSpec {
 				continue;
 			}
 			mailBuilder.append(" ")
-			           .append(arg);
+					.append(arg);
 		}
 		if (mailBuilder.length() > 64) {
 			Chat.sendMessage(senderPlayer, "invalid-mail");
@@ -62,11 +54,11 @@ public class CmdSpec {
 		String timeString = Long.toString(time);
 		String mail = mailBuilder.toString();
 		main.getMailStorage()
-		    .saveMail(receiverPlayer, senderPlayer, timeString, mail);
+				.saveMail(receiverPlayer, senderPlayer, timeString, mail);
 	}
 
 	public static void readMail(@NotNull CommandSender sender, String receiverUUID,
-	                            List<Map<String, String>> mailList) {
+			List<Map<String, String>> mailList) {
 		if (mailList == null || mailList.isEmpty()) {
 			Chat.sendMessage(sender, "no-mail");
 			return;
@@ -80,11 +72,11 @@ public class CmdSpec {
 			for (Map.Entry<String, String> entrySet : map.entrySet()) {
 				switch (entrySet.getKey()) {
 					case "senderUUID" -> senders.add(Bukkit.getOfflinePlayer(UUID.fromString(entrySet.getValue()))
-					                                       .getName());
+							.getName());
 					case "time" -> times.add(simpleDateFormat.format(new Date(Long.parseLong(entrySet.getValue()))));
 					case "mail" -> mails.add(entrySet.getValue());
 					default -> Bukkit.getLogger()
-					                 .warning(NOENTRYEXCEPTION);
+							.warning(NOENTRYEXCEPTION);
 				}
 			}
 		}
@@ -95,9 +87,9 @@ public class CmdSpec {
 	}
 
 	public static boolean isInvalidCmd(@NotNull CommandSender sender, OfflinePlayer player, @NotNull String perm,
-	                                   @NotNull StringBuilder mailBuilder) {
+			@NotNull StringBuilder mailBuilder) {
 		return Cmd.isInvalidSender(sender) || Cmd.isNotPermitted(sender, perm) || Cmd.isInvalidPlayer(sender, player)
-		       || isInvalidMail(sender, mailBuilder) || isOnCooldown(sender);
+				|| isInvalidMail(sender, mailBuilder) || isOnCooldown(sender);
 	}
 
 	public static boolean isInvalidCmd(@NotNull CommandSender sender, @NotNull String perm) {
@@ -125,14 +117,16 @@ public class CmdSpec {
 				clearMap(sender);
 			}
 		}.runTaskLaterAsynchronously(main, (main.getConfig()
-		                                        .getLong("cooldown.time") * 20L));
+				.getLong("cooldown.time") * 20L));
 	}
 
 	private static boolean isOnCooldown(@NotNull CommandSender sender) {
 		Player senderPlayer = (Player) sender;
 		boolean isOnCooldown = main.getConfig()
-		                           .getBoolean("cooldown.enabled") && !sender.hasPermission(
-				"vitalskull.cooldown.bypass") && cooldownMap.containsKey(senderPlayer.getUniqueId());
+				.getBoolean("cooldown.enabled")
+				&& !sender.hasPermission(
+						"vitalskull.cooldown.bypass")
+				&& cooldownMap.containsKey(senderPlayer.getUniqueId());
 		if (isOnCooldown) {
 			String timeRemaining = String.valueOf(
 					cooldownMap.get(senderPlayer.getUniqueId()) - System.currentTimeMillis() / 1000);
@@ -140,7 +134,7 @@ public class CmdSpec {
 			return true;
 		}
 		cooldownMap.put(senderPlayer.getUniqueId(), main.getConfig()
-		                                                .getLong("cooldown.time") + System.currentTimeMillis() / 1000);
+				.getLong("cooldown.time") + System.currentTimeMillis() / 1000);
 		doTiming(sender);
 		return false;
 	}

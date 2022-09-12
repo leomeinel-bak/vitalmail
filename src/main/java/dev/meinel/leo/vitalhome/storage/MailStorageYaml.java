@@ -1,19 +1,11 @@
 /*
- * VitalMail is a Spigot Plugin that gives players the ability to write mail to offline players.
- * Copyright © 2022 Leopold Meinel
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://github.com/LeoMeinel/VitalMail/blob/main/LICENSE
+ * File: MailStorageYaml.java
+ * Author: Leopold Meinel (leo@meinel.dev)
+ * -----
+ * Copyright (c) 2022 Leopold Meinel & contributors
+ * SPDX ID: GPL-3.0-or-later
+ * URL: https://www.gnu.org/licenses/gpl-3.0-standalone.html
+ * -----
  */
 
 package dev.meinel.leo.vitalhome.storage;
@@ -47,7 +39,7 @@ public class MailStorageYaml
 		mailFolder = new File(main.getDataFolder(), "mail");
 		if (!mailFolder.exists() && !mailFolder.mkdirs()) {
 			Bukkit.getLogger()
-			      .warning(IOEXCEPTION);
+					.warning(IOEXCEPTION);
 		}
 	}
 
@@ -60,24 +52,23 @@ public class MailStorageYaml
 
 	@Override
 	public void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time,
-	                     @NotNull String mail) {
+			@NotNull String mail) {
 		List<Map<String, String>> mailList = new ArrayList<>();
 		String receiverUUID = receiverPlayer.getUniqueId()
-		                                    .toString();
+				.toString();
 		String senderUUID = senderPlayer.getUniqueId()
-		                                .toString();
+				.toString();
 		mailFile = new File(mailFolder, receiverUUID + ".yml");
 		final String CREATEFILEEXCEPTION = "VitalMail is not able to create: mail/" + receiverUUID + ".yml";
 		if (!mailFile.exists()) {
 			try {
 				if (!mailFile.createNewFile()) {
 					Bukkit.getLogger()
-					      .warning(CREATEFILEEXCEPTION);
+							.warning(CREATEFILEEXCEPTION);
 				}
-			}
-			catch (IOException ignored) {
+			} catch (IOException ignored) {
 				Bukkit.getLogger()
-				      .warning(IOEXCEPTION);
+						.warning(IOEXCEPTION);
 			}
 		}
 		mailConf = YamlConfiguration.loadConfiguration(mailFile);
@@ -96,7 +87,7 @@ public class MailStorageYaml
 		save(mailFile, mailConf);
 		if (receiverPlayer.isOnline()) {
 			Chat.sendMessage(Objects.requireNonNull(receiverPlayer.getPlayer()),
-			                 Map.of("%player%", senderPlayer.getName()), "mail-received");
+					Map.of("%player%", senderPlayer.getName()), "mail-received");
 		}
 	}
 
@@ -106,10 +97,9 @@ public class MailStorageYaml
 		if (mailFile.exists()) {
 			try {
 				Files.delete(mailFile.toPath());
-			}
-			catch (IOException ignored) {
+			} catch (IOException ignored) {
 				Bukkit.getLogger()
-				      .warning(IOEXCEPTION);
+						.warning(IOEXCEPTION);
 			}
 		}
 	}
@@ -117,10 +107,9 @@ public class MailStorageYaml
 	private void save(File mailFile, FileConfiguration mailConf) {
 		try {
 			mailConf.save(mailFile);
-		}
-		catch (IOException ignored) {
+		} catch (IOException ignored) {
 			Bukkit.getLogger()
-			      .info(IOEXCEPTION);
+					.info(IOEXCEPTION);
 		}
 	}
 }

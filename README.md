@@ -1,4 +1,5 @@
 <!-- PROJECT SHIELDS -->
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -74,12 +75,12 @@ This plugin is perfect for any server wanting their players to be able to mail o
 
 ### Features
 
-* Send mail
+- Send mail
 
 ### Built With
 
-* [Gradle 7](https://docs.gradle.org/7.4/release-notes.html)
-* [OpenJDK 17](https://openjdk.java.net/projects/jdk/17/)
+- [Gradle 7](https://docs.gradle.org/7.4/release-notes.html)
+- [OpenJDK 17](https://openjdk.java.net/projects/jdk/17/)
 
 <!-- GETTING STARTED -->
 
@@ -91,22 +92,22 @@ To get the plugin running on your server follow these simple steps.
 
 1. Permission: `vitalmail.send`
 
-* Command: `/vitalmail send <player> <mail>`
-* Description: Send mail
+- Command: `/vitalmail send <player> <mail>`
+- Description: Send mail
 
 2. Permission: `vitalmail.read`
 
-* Command: `/vitalmail read`
-* Description: Read mail
+- Command: `/vitalmail read`
+- Description: Read mail
 
 3. Permission: `vitalmail.clear`
 
-* Command: `/vitalmail clear`
-* Description: Clear inbox
+- Command: `/vitalmail clear`
+- Description: Clear inbox
 
 4. Permission: `vitalmail.cooldown.bypass`
 
-* Description: Bypass cooldown
+- Description: Bypass cooldown
 
 ## Configuration
 
@@ -188,30 +189,19 @@ Project Link - [VitalMail](https://github.com/LeoMeinel/VitalMail) - GitHub
 
 ### Acknowledgements
 
-* [README.md - othneildrew](https://github.com/othneildrew/Best-README-Template)
+- [README.md - othneildrew](https://github.com/othneildrew/Best-README-Template)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [contributors-shield]: https://img.shields.io/github/contributors-anon/LeoMeinel/VitalMail?style=for-the-badge
-
 [contributors-url]: https://github.com/LeoMeinel/VitalMail/graphs/contributors
-
 [forks-shield]: https://img.shields.io/github/forks/LeoMeinel/VitalMail?label=Forks&style=for-the-badge
-
 [forks-url]: https://github.com/LeoMeinel/VitalMail/network/members
-
 [stars-shield]: https://img.shields.io/github/stars/LeoMeinel/VitalMail?style=for-the-badge
-
 [stars-url]: https://github.com/LeoMeinel/VitalMail/stargazers
-
 [issues-shield]: https://img.shields.io/github/issues/LeoMeinel/VitalMail?style=for-the-badge
-
 [issues-url]: https://github.com/LeoMeinel/VitalMail/issues
-
 [license-shield]: https://img.shields.io/github/license/LeoMeinel/VitalMail?style=for-the-badge
-
 [license-url]: https://github.com/LeoMeinel/VitalMail/blob/main/LICENSE
-
 [quality-shield]: https://img.shields.io/codefactor/grade/github/LeoMeinel/VitalMail?style=for-the-badge
-
 [quality-url]: https://www.codefactor.io/repository/github/LeoMeinel/VitalMail
