@@ -23,58 +23,58 @@ import java.sql.SQLException;
 
 public class SqlManager {
 
-	private static final String SQLEXCEPTION = "VitalMail encountered an SQLException while executing task";
-	private static Connection connection;
-	private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
-	private final int port;
-	private final String host;
-	private final String database;
-	private final String username;
-	private final String password;
+    private static final String SQLEXCEPTION = "VitalMail encountered an SQLException while executing task";
+    private static Connection connection;
+    private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
+    private final int port;
+    private final String host;
+    private final String database;
+    private final String username;
+    private final String password;
 
-	public SqlManager() {
-		this.host = main.getConfig()
-				.getString("mysql.host");
-		this.port = main.getConfig()
-				.getInt("mysql.port");
-		this.database = main.getConfig()
-				.getString("mysql.database");
-		this.username = main.getConfig()
-				.getString("mysql.username");
-		this.password = main.getConfig()
-				.getString("mysql.password");
-		enableConnection();
-		try (PreparedStatement statementSpawnTable = SqlManager.getConnection()
-				.prepareStatement(
-						"CREATE TABLE IF NOT EXISTS " + Sql.getPrefix()
-								+ "Mail (`ReceiverUUID` TEXT, `SenderUUID` TEXT, `Time` TEXT, `Mail` TEXT)")) {
-			statementSpawnTable.executeUpdate();
-		} catch (SQLException ignored) {
-			Bukkit.getLogger()
-					.warning(SQLEXCEPTION);
-		}
-	}
+    public SqlManager() {
+        this.host = main.getConfig()
+                .getString("mysql.host");
+        this.port = main.getConfig()
+                .getInt("mysql.port");
+        this.database = main.getConfig()
+                .getString("mysql.database");
+        this.username = main.getConfig()
+                .getString("mysql.username");
+        this.password = main.getConfig()
+                .getString("mysql.password");
+        enableConnection();
+        try (PreparedStatement statementSpawnTable = SqlManager.getConnection()
+                .prepareStatement(
+                        "CREATE TABLE IF NOT EXISTS " + Sql.getPrefix()
+                                + "Mail (`ReceiverUUID` TEXT, `SenderUUID` TEXT, `Time` TEXT, `Mail` TEXT)")) {
+            statementSpawnTable.executeUpdate();
+        } catch (SQLException ignored) {
+            Bukkit.getLogger()
+                    .warning(SQLEXCEPTION);
+        }
+    }
 
-	public static Connection getConnection() {
-		return connection;
-	}
+    public static Connection getConnection() {
+        return connection;
+    }
 
-	private static void setConnection(@NotNull Connection connection) {
-		SqlManager.connection = connection;
-	}
+    private static void setConnection(@NotNull Connection connection) {
+        SqlManager.connection = connection;
+    }
 
-	private void enableConnection() {
-		try {
-			if (getConnection() != null && !getConnection().isClosed()) {
-				return;
-			}
-			setConnection(DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username,
-					password));
-			main.getLogger()
-					.info("Connected successfully with the database!");
-		} catch (SQLException ignored) {
-			Bukkit.getLogger()
-					.warning(SQLEXCEPTION);
-		}
-	}
+    private void enableConnection() {
+        try {
+            if (getConnection() != null && !getConnection().isClosed()) {
+                return;
+            }
+            setConnection(DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username,
+                    password));
+            main.getLogger()
+                    .info("Connected successfully with the database!");
+        } catch (SQLException ignored) {
+            Bukkit.getLogger()
+                    .warning(SQLEXCEPTION);
+        }
+    }
 }

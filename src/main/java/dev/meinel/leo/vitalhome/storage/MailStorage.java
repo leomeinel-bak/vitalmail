@@ -21,16 +21,16 @@ import java.util.Map;
 
 public abstract class MailStorage {
 
-	protected final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
+    protected final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
-	public abstract List<Map<String, String>> loadMail(@NotNull String receiverUUID);
+    public abstract List<Map<String, String>> loadMail(@NotNull String receiverUUID);
 
-	public abstract void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time,
-			@NotNull String mail);
+    public abstract void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time,
+            @NotNull String mail);
 
-	public abstract void clear(@NotNull String receiverUUID);
+    public abstract void clear(@NotNull String receiverUUID);
 
-	public boolean hasMail(@NotNull String receiverUUID) {
-		return loadMail(receiverUUID) != null && !loadMail(receiverUUID).isEmpty();
-	}
+    public boolean hasMail(@NotNull String receiverUUID) {
+        return loadMail(receiverUUID) != null && !loadMail(receiverUUID).isEmpty();
+    }
 }
