@@ -10,6 +10,9 @@
 
 import org.apache.tools.ant.filters.ReplaceTokens
 
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
 plugins {
     id 'java'
     id "org.sonarqube" version "3.4.0.2513"
