@@ -11,7 +11,7 @@
 <!--suppress ALL -->
 <br />
 <p align="center">
-  <a href="https://github.com/LeoMeinel/VitalMail">
+  <a href="https://github.com/LeoMeinel/vitalmail">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -20,14 +20,14 @@
   <p align="center">
     Send mail on Spigot and Paper
     <br />
-    <a href="https://github.com/LeoMeinel/VitalMail"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/LeoMeinel/vitalmail"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/LeoMeinel/VitalMail">View Demo</a>
+    <a href="https://github.com/LeoMeinel/vitalmail">View Demo</a>
     ·
-    <a href="https://github.com/LeoMeinel/VitalMail/issues">Report Bug</a>
+    <a href="https://github.com/LeoMeinel/vitalmail/issues">Report Bug</a>
     ·
-    <a href="https://github.com/LeoMeinel/VitalMail/issues">Request Feature</a>
+    <a href="https://github.com/LeoMeinel/vitalmail/issues">Request Feature</a>
   </p>
 
 <!-- ABOUT THE PROJECT -->
@@ -59,17 +59,17 @@ To get the plugin running on your server follow these simple steps.
 
 1. Permission: `vitalmail.send`
 
-- Command: `/vitalmail send <player> <mail>`
+- Command: `/mail send <player> <mail>`
 - Description: Send mail
 
 2. Permission: `vitalmail.read`
 
-- Command: `/vitalmail read`
+- Command: `/mail read`
 - Description: Read mail
 
 3. Permission: `vitalmail.clear`
 
-- Command: `/vitalmail clear`
+- Command: `/mail clear`
 - Description: Clear inbox
 
 4. Permission: `vitalmail.cooldown.bypass`
@@ -122,7 +122,7 @@ cooldown-active: "&cYou can't use that command for another &b%time-left% &csecon
 
 ## Roadmap
 
-See the [open issues](https://github.com/LeoMeinel/VitalMail/issues) for a list of proposed features (and known
+See the [open issues](https://github.com/LeoMeinel/vitalmail/issues) for a list of proposed features (and known
 issues).
 
 <!-- CONTRIBUTING -->
@@ -150,7 +150,7 @@ Distributed under the GNU General Public License v3.0. See `LICENSE` for more in
 
 Leopold Meinel - [leo@meinel.dev](mailto:leo@meinel.dev) - eMail
 
-Project Link - [VitalMail](https://github.com/LeoMeinel/VitalMail) - GitHub
+Project Link - [VitalMail](https://github.com/LeoMeinel/vitalmail) - GitHub
 
 <!-- ACKNOWLEDGEMENTS -->
 
@@ -160,15 +160,15 @@ Project Link - [VitalMail](https://github.com/LeoMeinel/VitalMail) - GitHub
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[contributors-shield]: https://img.shields.io/github/contributors-anon/LeoMeinel/VitalMail?style=for-the-badge
-[contributors-url]: https://github.com/LeoMeinel/VitalMail/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/LeoMeinel/VitalMail?label=Forks&style=for-the-badge
-[forks-url]: https://github.com/LeoMeinel/VitalMail/network/members
-[stars-shield]: https://img.shields.io/github/stars/LeoMeinel/VitalMail?style=for-the-badge
-[stars-url]: https://github.com/LeoMeinel/VitalMail/stargazers
-[issues-shield]: https://img.shields.io/github/issues/LeoMeinel/VitalMail?style=for-the-badge
-[issues-url]: https://github.com/LeoMeinel/VitalMail/issues
-[license-shield]: https://img.shields.io/github/license/LeoMeinel/VitalMail?style=for-the-badge
-[license-url]: https://github.com/LeoMeinel/VitalMail/blob/main/LICENSE
-[quality-shield]: https://img.shields.io/codefactor/grade/github/LeoMeinel/VitalMail?style=for-the-badge
-[quality-url]: https://www.codefactor.io/repository/github/LeoMeinel/VitalMail
+[contributors-shield]: https://img.shields.io/github/contributors-anon/LeoMeinel/vitalmail?style=for-the-badge
+[contributors-url]: https://github.com/LeoMeinel/vitalmail/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/LeoMeinel/vitalmail?label=Forks&style=for-the-badge
+[forks-url]: https://github.com/LeoMeinel/vitalmail/network/members
+[stars-shield]: https://img.shields.io/github/stars/LeoMeinel/vitalmail?style=for-the-badge
+[stars-url]: https://github.com/LeoMeinel/vitalmail/stargazers
+[issues-shield]: https://img.shields.io/github/issues/LeoMeinel/vitalmail?style=for-the-badge
+[issues-url]: https://github.com/LeoMeinel/vitalmail/issues
+[license-shield]: https://img.shields.io/github/license/LeoMeinel/vitalmail?style=for-the-badge
+[license-url]: https://github.com/LeoMeinel/vitalmail/blob/main/LICENSE
+[quality-shield]: https://img.shields.io/codefactor/grade/github/LeoMeinel/vitalmail?style=for-the-badge
+[quality-url]: https://www.codefactor.io/repository/github/LeoMeinel/vitalmail
