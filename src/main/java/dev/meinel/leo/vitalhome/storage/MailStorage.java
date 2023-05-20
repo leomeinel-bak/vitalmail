@@ -2,7 +2,7 @@
  * File: MailStorage.java
  * Author: Leopold Meinel (leo@meinel.dev)
  * -----
- * Copyright (c) 2022 Leopold Meinel & contributors
+ * Copyright (c) 2023 Leopold Meinel & contributors
  * SPDX ID: GPL-3.0-or-later
  * URL: https://www.gnu.org/licenses/gpl-3.0-standalone.html
  * -----
@@ -25,8 +25,8 @@ public abstract class MailStorage {
 
     public abstract List<Map<String, String>> loadMail(@NotNull String receiverUUID);
 
-    public abstract void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time,
-            @NotNull String mail);
+    public abstract void saveMail(@NotNull OfflinePlayer receiverPlayer,
+            @NotNull Player senderPlayer, String time, @NotNull String mail);
 
     public abstract void clear(@NotNull String receiverUUID);
 

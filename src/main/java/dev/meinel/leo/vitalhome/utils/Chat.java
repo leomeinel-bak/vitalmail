@@ -2,7 +2,7 @@
  * File: Chat.java
  * Author: Leopold Meinel (leo@meinel.dev)
  * -----
- * Copyright (c) 2022 Leopold Meinel & contributors
+ * Copyright (c) 2023 Leopold Meinel & contributors
  * SPDX ID: GPL-3.0-or-later
  * URL: https://www.gnu.org/licenses/gpl-3.0-standalone.html
  * -----
@@ -29,8 +29,8 @@ public class Chat {
         throw new IllegalStateException("Utility class");
     }
 
-    public static void sendMessage(@NotNull CommandSender player, @NotNull Map<String, String> placeholders,
-            @NotNull String message) {
+    public static void sendMessage(@NotNull CommandSender player,
+            @NotNull Map<String, String> placeholders, @NotNull String message) {
         List<String> messages = getMessages(message);
         for (String string : messages) {
             for (Map.Entry<String, String> entry : placeholders.entrySet()) {
@@ -43,24 +43,18 @@ public class Chat {
     }
 
     public static void sendMessage(@NotNull CommandSender player, @NotNull String message) {
-        player.sendMessage(replaceColors(Objects.requireNonNull(main.getMessages()
-                .getMessagesConf()
-                .getString(message))));
+        player.sendMessage(replaceColors(
+                Objects.requireNonNull(main.getMessages().getMessagesConf().getString(message))));
     }
 
     private static List<String> getMessages(@NotNull String message) {
         List<String> messages;
-        if (main.getMessages()
-                .getMessagesConf()
-                .isList(message)) {
-            messages = Objects.requireNonNull(main.getMessages()
-                    .getMessagesConf()
-                    .getStringList(message));
+        if (main.getMessages().getMessagesConf().isList(message)) {
+            messages = Objects
+                    .requireNonNull(main.getMessages().getMessagesConf().getStringList(message));
         } else {
             messages = new ArrayList<>();
-            messages.add(main.getMessages()
-                    .getMessagesConf()
-                    .getString(message));
+            messages.add(main.getMessages().getMessagesConf().getString(message));
         }
         return messages;
     }

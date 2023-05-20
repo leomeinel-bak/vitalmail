@@ -2,7 +2,7 @@
  * File: MailStorageSql.java
  * Author: Leopold Meinel (leo@meinel.dev)
  * -----
- * Copyright (c) 2022 Leopold Meinel & contributors
+ * Copyright (c) 2023 Leopold Meinel & contributors
  * SPDX ID: GPL-3.0-or-later
  * URL: https://www.gnu.org/licenses/gpl-3.0-standalone.html
  * -----
@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class MailStorageSql
-        extends MailStorage {
+public class MailStorageSql extends MailStorage {
 
-    private static final String SQLEXCEPTION = "VitalMail encountered an SQLException while executing task";
+    private static final String SQLEXCEPTION =
+            "VitalMail encountered an SQLException while executing task";
 
     public MailStorageSql() {
         new SqlManager();
@@ -40,8 +40,7 @@ public class MailStorageSql
     public List<Map<String, String>> loadMail(@NotNull String receiverUUID) {
         List<Map<String, String>> mailList = new ArrayList<>();
         try (PreparedStatement selectStatement = SqlManager.getConnection()
-                .prepareStatement(
-                        "SELECT * FROM " + Sql.getPrefix() + "Mail")) {
+                .prepareStatement("SELECT * FROM " + Sql.getPrefix() + "Mail")) {
             try (ResultSet rs = selectStatement.executeQuery()) {
                 while (rs.next()) {
                     if (!Objects.equals(rs.getString(1), receiverUUID) || rs.getString(1) == null) {
@@ -53,26 +52,23 @@ public class MailStorageSql
                 }
             }
         } catch (SQLException ignored) {
-            Bukkit.getLogger()
-                    .warning(SQLEXCEPTION);
+            Bukkit.getLogger().warning(SQLEXCEPTION);
             return Collections.emptyList();
         }
         return mailList;
     }
 
     @Override
-    public void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time,
-            @NotNull String mail) {
-        String senderUUID = senderPlayer.getUniqueId()
-                .toString();
-        String receiverUUID = receiverPlayer.getUniqueId()
-                .toString();
+    public void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer,
+            String time, @NotNull String mail) {
+        String senderUUID = senderPlayer.getUniqueId().toString();
+        String receiverUUID = receiverPlayer.getUniqueId().toString();
         if (loadMail(receiverUUID).size() >= 6 * 3) {
             Chat.sendMessage(senderPlayer, "inbox-full");
             return;
         }
-        try (PreparedStatement insertStatement = SqlManager.getConnection()
-                .prepareStatement("INSERT INTO " + Sql.getPrefix()
+        try (PreparedStatement insertStatement =
+                SqlManager.getConnection().prepareStatement("INSERT INTO " + Sql.getPrefix()
                         + "Mail (`ReceiverUUID`, `SenderUUID`, `Time`, `Mail`) VALUES (?, ?, ?, ?)")) {
             insertStatement.setString(1, receiverUUID);
             insertStatement.setString(2, senderUUID);
@@ -80,8 +76,7 @@ public class MailStorageSql
             insertStatement.setString(4, mail);
             insertStatement.executeUpdate();
         } catch (SQLException ignored) {
-            Bukkit.getLogger()
-                    .warning(SQLEXCEPTION);
+            Bukkit.getLogger().warning(SQLEXCEPTION);
         }
         Chat.sendMessage(senderPlayer, "mail-sent");
         if (receiverPlayer.isOnline()) {
@@ -92,14 +87,12 @@ public class MailStorageSql
 
     @Override
     public void clear(@NotNull String receiverUUID) {
-        try (PreparedStatement deleteStatement = SqlManager.getConnection()
-                .prepareStatement("DELETE FROM " + Sql.getPrefix()
-                        + "Mail WHERE `ReceiverUUID`=?")) {
+        try (PreparedStatement deleteStatement = SqlManager.getConnection().prepareStatement(
+                "DELETE FROM " + Sql.getPrefix() + "Mail WHERE `ReceiverUUID`=?")) {
             deleteStatement.setString(1, receiverUUID);
             deleteStatement.executeUpdate();
         } catch (SQLException ignored) {
-            Bukkit.getLogger()
-                    .warning(SQLEXCEPTION);
+            Bukkit.getLogger().warning(SQLEXCEPTION);
         }
     }
 }

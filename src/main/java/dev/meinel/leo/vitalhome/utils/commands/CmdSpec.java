@@ -2,7 +2,7 @@
  * File: CmdSpec.java
  * Author: Leopold Meinel (leo@meinel.dev)
  * -----
- * Copyright (c) 2022 Leopold Meinel & contributors
+ * Copyright (c) 2023 Leopold Meinel & contributors
  * SPDX ID: GPL-3.0-or-later
  * URL: https://www.gnu.org/licenses/gpl-3.0-standalone.html
  * -----
@@ -37,14 +37,14 @@ public class CmdSpec {
         throw new IllegalStateException("Utility class");
     }
 
-    public static void sendMail(@NotNull String @NotNull [] args, OfflinePlayer receiverPlayer, Player senderPlayer) {
+    public static void sendMail(@NotNull String @NotNull [] args, OfflinePlayer receiverPlayer,
+            Player senderPlayer) {
         StringBuilder mailBuilder = new StringBuilder();
         for (String arg : args) {
             if (arg.equals(args[0]) || arg.equals(args[1])) {
                 continue;
             }
-            mailBuilder.append(" ")
-                    .append(arg);
+            mailBuilder.append(" ").append(arg);
         }
         if (mailBuilder.length() > 64) {
             Chat.sendMessage(senderPlayer, "invalid-mail");
@@ -53,8 +53,7 @@ public class CmdSpec {
         long time = System.currentTimeMillis();
         String timeString = Long.toString(time);
         String mail = mailBuilder.toString();
-        main.getMailStorage()
-                .saveMail(receiverPlayer, senderPlayer, timeString, mail);
+        main.getMailStorage().saveMail(receiverPlayer, senderPlayer, timeString, mail);
     }
 
     public static void readMail(@NotNull CommandSender sender, String receiverUUID,
@@ -71,32 +70,34 @@ public class CmdSpec {
         for (Map<String, String> map : mailList) {
             for (Map.Entry<String, String> entrySet : map.entrySet()) {
                 switch (entrySet.getKey()) {
-                    case "senderUUID" -> senders.add(Bukkit.getOfflinePlayer(UUID.fromString(entrySet.getValue()))
-                            .getName());
-                    case "time" -> times.add(simpleDateFormat.format(new Date(Long.parseLong(entrySet.getValue()))));
+                    case "senderUUID" -> senders.add(Bukkit
+                            .getOfflinePlayer(UUID.fromString(entrySet.getValue())).getName());
+                    case "time" -> times.add(
+                            simpleDateFormat.format(new Date(Long.parseLong(entrySet.getValue()))));
                     case "mail" -> mails.add(entrySet.getValue());
-                    default -> Bukkit.getLogger()
-                            .warning(NOENTRYEXCEPTION);
+                    default -> Bukkit.getLogger().warning(NOENTRYEXCEPTION);
                 }
             }
         }
         for (int i = 0; i < senders.size(); i++) {
-            sender.sendMessage(
-                    Chat.replaceColors("&b" + senders.get(i) + " &f@ &d" + times.get(i) + "\n&f&l->&r" + mails.get(i)));
+            sender.sendMessage(Chat.replaceColors("&b" + senders.get(i) + " &f@ &d" + times.get(i)
+                    + "\n&f&l->&r" + mails.get(i)));
         }
     }
 
-    public static boolean isInvalidCmd(@NotNull CommandSender sender, OfflinePlayer player, @NotNull String perm,
-            @NotNull StringBuilder mailBuilder) {
-        return Cmd.isInvalidSender(sender) || Cmd.isNotPermitted(sender, perm) || Cmd.isInvalidPlayer(sender, player)
-                || isInvalidMail(sender, mailBuilder) || isOnCooldown(sender);
+    public static boolean isInvalidCmd(@NotNull CommandSender sender, OfflinePlayer player,
+            @NotNull String perm, @NotNull StringBuilder mailBuilder) {
+        return Cmd.isInvalidSender(sender) || Cmd.isNotPermitted(sender, perm)
+                || Cmd.isInvalidPlayer(sender, player) || isInvalidMail(sender, mailBuilder)
+                || isOnCooldown(sender);
     }
 
     public static boolean isInvalidCmd(@NotNull CommandSender sender, @NotNull String perm) {
         return Cmd.isInvalidSender(sender) || Cmd.isNotPermitted(sender, perm);
     }
 
-    private static boolean isInvalidMail(@NotNull CommandSender sender, @NotNull StringBuilder mailBuilder) {
+    private static boolean isInvalidMail(@NotNull CommandSender sender,
+            @NotNull StringBuilder mailBuilder) {
         if (mailBuilder.length() > 64) {
             Chat.sendMessage(sender, "invalid-mail");
             return true;
@@ -116,25 +117,22 @@ public class CmdSpec {
             public void run() {
                 clearMap(sender);
             }
-        }.runTaskLaterAsynchronously(main, (main.getConfig()
-                .getLong("cooldown.time") * 20L));
+        }.runTaskLaterAsynchronously(main, (main.getConfig().getLong("cooldown.time") * 20L));
     }
 
     private static boolean isOnCooldown(@NotNull CommandSender sender) {
         Player senderPlayer = (Player) sender;
-        boolean isOnCooldown = main.getConfig()
-                .getBoolean("cooldown.enabled")
-                && !sender.hasPermission(
-                        "vitalskull.cooldown.bypass")
+        boolean isOnCooldown = main.getConfig().getBoolean("cooldown.enabled")
+                && !sender.hasPermission("vitalskull.cooldown.bypass")
                 && cooldownMap.containsKey(senderPlayer.getUniqueId());
         if (isOnCooldown) {
-            String timeRemaining = String.valueOf(
-                    cooldownMap.get(senderPlayer.getUniqueId()) - System.currentTimeMillis() / 1000);
+            String timeRemaining = String.valueOf(cooldownMap.get(senderPlayer.getUniqueId())
+                    - System.currentTimeMillis() / 1000);
             Chat.sendMessage(sender, Map.of("%time-left%", timeRemaining), "cooldown-active");
             return true;
         }
-        cooldownMap.put(senderPlayer.getUniqueId(), main.getConfig()
-                .getLong("cooldown.time") + System.currentTimeMillis() / 1000);
+        cooldownMap.put(senderPlayer.getUniqueId(),
+                main.getConfig().getLong("cooldown.time") + System.currentTimeMillis() / 1000);
         doTiming(sender);
         return false;
     }

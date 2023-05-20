@@ -2,7 +2,7 @@
  * File: MailStorageYaml.java
  * Author: Leopold Meinel (leo@meinel.dev)
  * -----
- * Copyright (c) 2022 Leopold Meinel & contributors
+ * Copyright (c) 2023 Leopold Meinel & contributors
  * SPDX ID: GPL-3.0-or-later
  * URL: https://www.gnu.org/licenses/gpl-3.0-standalone.html
  * -----
@@ -27,10 +27,10 @@ import java.util.Map;
 import java.util.Objects;
 
 @SuppressWarnings("unchecked")
-public class MailStorageYaml
-        extends MailStorage {
+public class MailStorageYaml extends MailStorage {
 
-    private static final String IOEXCEPTION = "VitalMail encountered an IOException while executing task";
+    private static final String IOEXCEPTION =
+            "VitalMail encountered an IOException while executing task";
     private final File mailFolder;
     private File mailFile;
     private FileConfiguration mailConf;
@@ -38,8 +38,7 @@ public class MailStorageYaml
     public MailStorageYaml() {
         mailFolder = new File(main.getDataFolder(), "mail");
         if (!mailFolder.exists() && !mailFolder.mkdirs()) {
-            Bukkit.getLogger()
-                    .warning(IOEXCEPTION);
+            Bukkit.getLogger().warning(IOEXCEPTION);
         }
     }
 
@@ -51,24 +50,21 @@ public class MailStorageYaml
     }
 
     @Override
-    public void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer, String time,
-            @NotNull String mail) {
+    public void saveMail(@NotNull OfflinePlayer receiverPlayer, @NotNull Player senderPlayer,
+            String time, @NotNull String mail) {
         List<Map<String, String>> mailList = new ArrayList<>();
-        String receiverUUID = receiverPlayer.getUniqueId()
-                .toString();
-        String senderUUID = senderPlayer.getUniqueId()
-                .toString();
+        String receiverUUID = receiverPlayer.getUniqueId().toString();
+        String senderUUID = senderPlayer.getUniqueId().toString();
         mailFile = new File(mailFolder, receiverUUID + ".yml");
-        final String CREATEFILEEXCEPTION = "VitalMail is not able to create: mail/" + receiverUUID + ".yml";
+        final String CREATEFILEEXCEPTION =
+                "VitalMail is not able to create: mail/" + receiverUUID + ".yml";
         if (!mailFile.exists()) {
             try {
                 if (!mailFile.createNewFile()) {
-                    Bukkit.getLogger()
-                            .warning(CREATEFILEEXCEPTION);
+                    Bukkit.getLogger().warning(CREATEFILEEXCEPTION);
                 }
             } catch (IOException ignored) {
-                Bukkit.getLogger()
-                        .warning(IOEXCEPTION);
+                Bukkit.getLogger().warning(IOEXCEPTION);
             }
         }
         mailConf = YamlConfiguration.loadConfiguration(mailFile);
@@ -98,8 +94,7 @@ public class MailStorageYaml
             try {
                 Files.delete(mailFile.toPath());
             } catch (IOException ignored) {
-                Bukkit.getLogger()
-                        .warning(IOEXCEPTION);
+                Bukkit.getLogger().warning(IOEXCEPTION);
             }
         }
     }
@@ -108,8 +103,7 @@ public class MailStorageYaml
         try {
             mailConf.save(mailFile);
         } catch (IOException ignored) {
-            Bukkit.getLogger()
-                    .info(IOEXCEPTION);
+            Bukkit.getLogger().info(IOEXCEPTION);
         }
     }
 }

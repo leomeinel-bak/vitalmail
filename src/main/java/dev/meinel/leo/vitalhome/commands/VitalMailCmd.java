@@ -2,7 +2,7 @@
  * File: VitalMailCmd.java
  * Author: Leopold Meinel (leo@meinel.dev)
  * -----
- * Copyright (c) 2022 Leopold Meinel & contributors
+ * Copyright (c) 2023 Leopold Meinel & contributors
  * SPDX ID: GPL-3.0-or-later
  * URL: https://www.gnu.org/licenses/gpl-3.0-standalone.html
  * -----
@@ -28,14 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class VitalMailCmd
-        implements TabExecutor {
+public class VitalMailCmd implements TabExecutor {
 
     private final VitalMail main = JavaPlugin.getPlugin(VitalMail.class);
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label,
-            @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+            @NotNull String label, @NotNull String[] args) {
         if (Cmd.isArgsLengthSmallerThan(sender, args, 1)) {
             return false;
         }
@@ -70,10 +69,8 @@ public class VitalMailCmd
             return;
         }
         Player senderPlayer = (Player) sender;
-        String receiverUUID = senderPlayer.getUniqueId()
-                .toString();
-        List<Map<String, String>> mailList = main.getMailStorage()
-                .loadMail(receiverUUID);
+        String receiverUUID = senderPlayer.getUniqueId().toString();
+        List<Map<String, String>> mailList = main.getMailStorage().loadMail(receiverUUID);
         CmdSpec.readMail(sender, receiverUUID, mailList);
     }
 
@@ -82,16 +79,14 @@ public class VitalMailCmd
             return;
         }
         Player senderPlayer = (Player) sender;
-        String receiverUUID = senderPlayer.getUniqueId()
-                .toString();
-        main.getMailStorage()
-                .clear(receiverUUID);
+        String receiverUUID = senderPlayer.getUniqueId().toString();
+        main.getMailStorage().clear(receiverUUID);
         Chat.sendMessage(sender, "mail-cleared");
     }
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
-            @NotNull String alias, @NotNull String[] args) {
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender,
+            @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         @Nullable
         List<String> tabComplete = new ArrayList<>();
         if (args.length == 1) {
