@@ -39,8 +39,10 @@ public class MailStorageSql extends MailStorage {
     @Override
     public List<Map<String, String>> loadMail(@NotNull String receiverUUID) {
         List<Map<String, String>> mailList = new ArrayList<>();
-        try (PreparedStatement selectStatement = SqlManager.getConnection()
-                .prepareStatement("SELECT * FROM " + Sql.getPrefix() + "Mail")) {
+        try (PreparedStatement selectStatement =
+                SqlManager.getConnection().prepareStatement("SELECT * FROM ?Mail")) {
+            selectStatement.setString(1, Sql.getPrefix());
+            selectStatement.executeUpdate();
             try (ResultSet rs = selectStatement.executeQuery()) {
                 while (rs.next()) {
                     if (!Objects.equals(rs.getString(1), receiverUUID) || rs.getString(1) == null) {
@@ -67,13 +69,13 @@ public class MailStorageSql extends MailStorage {
             Chat.sendMessage(senderPlayer, "inbox-full");
             return;
         }
-        try (PreparedStatement insertStatement =
-                SqlManager.getConnection().prepareStatement("INSERT INTO " + Sql.getPrefix()
-                        + "Mail (`ReceiverUUID`, `SenderUUID`, `Time`, `Mail`) VALUES (?, ?, ?, ?)")) {
-            insertStatement.setString(1, receiverUUID);
-            insertStatement.setString(2, senderUUID);
-            insertStatement.setString(3, time);
-            insertStatement.setString(4, mail);
+        try (PreparedStatement insertStatement = SqlManager.getConnection().prepareStatement(
+                "INSERT INTO ?Mail (`ReceiverUUID`, `SenderUUID`, `Time`, `Mail`) VALUES (?, ?, ?, ?)")) {
+            insertStatement.setString(1, Sql.getPrefix());
+            insertStatement.setString(2, receiverUUID);
+            insertStatement.setString(3, senderUUID);
+            insertStatement.setString(4, time);
+            insertStatement.setString(5, mail);
             insertStatement.executeUpdate();
         } catch (SQLException ignored) {
             Bukkit.getLogger().warning(SQLEXCEPTION);
@@ -87,9 +89,10 @@ public class MailStorageSql extends MailStorage {
 
     @Override
     public void clear(@NotNull String receiverUUID) {
-        try (PreparedStatement deleteStatement = SqlManager.getConnection().prepareStatement(
-                "DELETE FROM " + Sql.getPrefix() + "Mail WHERE `ReceiverUUID`=?")) {
-            deleteStatement.setString(1, receiverUUID);
+        try (PreparedStatement deleteStatement = SqlManager.getConnection()
+                .prepareStatement("DELETE FROM ?Mail WHERE `ReceiverUUID`=?")) {
+            deleteStatement.setString(1, Sql.getPrefix());
+            deleteStatement.setString(2, receiverUUID);
             deleteStatement.executeUpdate();
         } catch (SQLException ignored) {
             Bukkit.getLogger().warning(SQLEXCEPTION);
