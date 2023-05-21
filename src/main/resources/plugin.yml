@@ -7,7 +7,7 @@ description: Gives players the ability to set homes and teleport to them.
 commands:
   mail:
     description: "Main command"
-    usage: "/home"
+    usage: "/mail send <player> <message>\n/mail clear\n/mail read"
 permissions:
   vitalmail.send:
     description: "Permission to send mail"
