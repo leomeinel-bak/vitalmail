@@ -87,13 +87,13 @@ public class CmdSpec {
 
     public static boolean isInvalidCmd(@NotNull CommandSender sender, OfflinePlayer player,
             @NotNull String perm, @NotNull StringBuilder mailBuilder) {
-        return Cmd.isInvalidSender(sender) || Cmd.isNotPermitted(sender, perm)
+        return Cmd.isInvalidSender(sender) || !Cmd.isPermitted(sender, perm)
                 || Cmd.isInvalidPlayer(sender, player) || isInvalidMail(sender, mailBuilder)
                 || isOnCooldown(sender);
     }
 
     public static boolean isInvalidCmd(@NotNull CommandSender sender, @NotNull String perm) {
-        return Cmd.isInvalidSender(sender) || Cmd.isNotPermitted(sender, perm);
+        return Cmd.isInvalidSender(sender) || !Cmd.isPermitted(sender, perm);
     }
 
     private static boolean isInvalidMail(@NotNull CommandSender sender,
