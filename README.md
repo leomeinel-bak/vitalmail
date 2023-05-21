@@ -102,7 +102,6 @@ mysql:
 ### messages.yml
 
 ```yaml
-cmd: "&fUsage: &b/home <name> &for &b/sethome <name>"
 no-perms: "&cYou don't have enough permissions!"
 player-only: "&cThis command can only be executed by players!"
 invalid-player: "&cInvalid player!"

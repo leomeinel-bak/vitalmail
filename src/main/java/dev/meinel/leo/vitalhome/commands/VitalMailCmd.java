@@ -43,7 +43,6 @@ public class VitalMailCmd implements TabExecutor {
             case "read" -> doRead(sender);
             case "clear" -> doClear(sender);
             default -> {
-                Chat.sendMessage(sender, "cmd");
                 return false;
             }
         }
