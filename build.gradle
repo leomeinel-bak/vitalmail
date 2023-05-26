@@ -12,7 +12,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id 'java'
-    id "org.sonarqube" version "4.0.0.2929"
+    id "org.sonarqube" version "4.1.0.3113"
 }
 
 group 'dev.meinel.leo.vitalhome'
